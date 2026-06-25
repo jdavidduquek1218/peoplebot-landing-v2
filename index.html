@@ -86,6 +86,7 @@ window.addEventListener('scroll', function() {
   if(logo) logo.style.color = scrolled ? '#09090B' : '#fff';
   links.forEach(function(l,i){
     if(i<links.length-1) l.style.color = scrolled ? '#52525B' : 'rgba(255,255,255,.65)';
+    else l.style.color = '#fff';
   });
   spans.forEach(function(s){ s.style.background = scrolled ? '#09090B' : '#fff'; });
 });
@@ -128,7 +129,7 @@ window.addEventListener('scroll', function() {
       <span style="font-size:13px;font-weight:500;color:rgba(255,255,255,.55);letter-spacing:.02em;">Demos disponibles · Agenda la tuya hoy</span>
     </div>
     <h1 style="font-size:clamp(52px,7.5vw,92px);font-weight:700;line-height:1.0;letter-spacing:-.03em;color:#fff;margin-bottom:28px;text-wrap:balance;">Crece sin disparar<br>tus costos de operación</h1>
-    <p style="font-size:clamp(17px,2vw,21px);color:rgba(255,255,255,.45);line-height:1.55;margin-bottom:52px;font-weight:400;">Gestión de personal operativo a través de <span style="color:#25D366;font-weight:600;">WhatsApp</span></p>
+    <p style="font-size:clamp(17px,2vw,21px);color:rgba(255,255,255,.45);line-height:1.55;margin-bottom:52px;font-weight:400;">Automatiza la gestión del personal operativo vía&nbsp;<span style="color: rgb(37, 211, 102); font-weight: 600;">WhatsApp&nbsp;</span>con <span style="color:#4F46E5;font-weight:600;">IA</span></p>
     <div style="display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;">
       <a href="#waitlist" onclick="scrollToForm(null)" style="background:#4F46E5;color:#fff;font-size:16px;font-weight:600;padding:16px 32px;border-radius:10px;text-decoration:none;display:inline-flex;align-items:center;gap:8px;box-shadow:0 0 0 1px rgba(79,70,229,.4),0 4px 24px rgba(79,70,229,.25);transition:all .2s;" style-hover="background:#4338CA;transform:translateY(-1px)">Agendar mi demo <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg></a>
       <a href="#demo" style="font-size:15px;font-weight:500;color:rgba(255,255,255,.4);text-decoration:none;display:inline-flex;align-items:center;gap:7px;transition:color .2s;" style-hover="color:rgba(255,255,255,.8)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"></circle><path d="M10 8l6 4-6 4V8z" fill="currentColor"></path></svg> Ver demo</a>

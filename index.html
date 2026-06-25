@@ -38,6 +38,8 @@
     .acc-panel { grid-template-columns: 1fr !important; }
     .acc-panel > div { border-right: none !important; border-bottom: 1px solid #E4E4E7 !important; }
     .footer-checks { grid-template-columns: 1fr !important; gap: 20px !important; }
+    .sol-card { min-height: 420px !important; }
+    .sol-card-pad { padding: 32px 24px 16px !important; }
     .contact-row { grid-template-columns: 1fr !important; }
     section, footer { padding-left: 20px !important; padding-right: 20px !important; }
     .inner { padding-left: 0 !important; padding-right: 0 !important; }
@@ -169,7 +171,7 @@ window.addEventListener('scroll', function() {
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;" class="three-col">
 
       <!-- Card 1: Manifesto oscuro -->
-      <div style="background:#09090B;border-radius:18px;padding:44px 40px 48px;display:flex;flex-direction:column;min-height:500px;position:relative;overflow:hidden;">
+      <div class="sol-card" style="background:#09090B;border-radius:18px;padding:44px 40px 48px;display:flex;flex-direction:column;min-height:500px;position:relative;overflow:hidden;">
         <div style="position:absolute;bottom:-60px;left:-60px;width:260px;height:260px;background:radial-gradient(circle,rgba(79,70,229,.28) 0%,transparent 68%);pointer-events:none;"></div>
         <div style="position:absolute;top:-30px;right:-30px;width:160px;height:160px;background:radial-gradient(circle,rgba(79,70,229,.1) 0%,transparent 70%);pointer-events:none;"></div>
         <div>
@@ -187,8 +189,8 @@ window.addEventListener('scroll', function() {
       </div>
 
       <!-- Card 2: WhatsApp + teléfono flotante -->
-      <div style="background:#fff;border:1px solid #E8E8E8;border-radius:18px;display:flex;flex-direction:column;min-height:500px;overflow:hidden;">
-        <div style="padding:44px 40px 20px;">
+      <div class="sol-card" style="background:#fff;border:1px solid #E8E8E8;border-radius:18px;display:flex;flex-direction:column;min-height:500px;overflow:hidden;">
+        <div class="sol-card-pad" style="padding:44px 40px 20px;">
           <div style="width:40px;height:40px;background:#F0FDF4;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:28px;">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"></path><path d="M12 0C5.373 0 0 5.373 0 12c0 2.14.563 4.144 1.535 5.875L0 24l6.297-1.499A11.946 11.946 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.891 0-3.659-.504-5.191-1.383l-.371-.22-3.86.92.978-3.763-.241-.389A9.936 9.936 0 012 12c0-5.514 4.486-10 10-10s10 4.486 10 10-4.486 10-10 10z"></path></svg>
           </div>
@@ -202,8 +204,8 @@ window.addEventListener('scroll', function() {
       </div>
 
       <!-- Card 3: Dashboard emergente -->
-      <div style="background:#F7F7F8;border:1px solid #E8E8E8;border-radius:18px;display:flex;flex-direction:column;min-height:500px;overflow:hidden;">
-        <div style="padding:44px 40px 20px;">
+      <div class="sol-card" style="background:#F7F7F8;border:1px solid #E8E8E8;border-radius:18px;display:flex;flex-direction:column;min-height:500px;overflow:hidden;">
+        <div class="sol-card-pad" style="padding:44px 40px 20px;">
           <div style="width:40px;height:40px;background:#F5F3FF;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:28px;">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="7" rx="1" stroke="#7C3AED" stroke-width="1.8"></rect><rect x="14" y="3" width="7" height="7" rx="1" stroke="#7C3AED" stroke-width="1.8"></rect><rect x="3" y="14" width="7" height="7" rx="1" stroke="#7C3AED" stroke-width="1.8"></rect><path d="M14 17.5h7M17.5 14v7" stroke="#7C3AED" stroke-width="1.8" stroke-linecap="round"></path></svg>
           </div>
@@ -487,7 +489,7 @@ window.addEventListener('scroll', function() {
     <div style="display:grid;grid-template-columns:1fr auto;gap:72px;align-items:center;" class="two-col">
       <div>
         <img src="uploads/Copy of sin_fondo_letra_negra (2).png" alt="Aleluya" style="height:26px;width:auto;display:block;margin-bottom:32px;filter:grayscale(1);opacity:.5;">
-        <h3 style="font-size:clamp(22px,2.5vw,32px);font-weight:700;color:#09090B;line-height:1.25;margin-bottom:24px;">Co-creado a partir del modelo de People que gestionamos en Aleluya durante 4 años</h3>
+        <h3 style="font-size:clamp(22px,2.5vw,32px);font-weight:700;color:#09090B;line-height:1.25;margin-bottom:24px;">Basado en el modelo de People que co-creamos en Aleluya durante 4 años</h3>
         <p style="font-size:20px;color:#09090B;font-style:italic;line-height:1.55;margin-bottom:28px;font-weight:500;">"En mis 15 años de carrera, Aleluya ha sido el lugar donde me he sentido más feliz trabajando"</p>
         <div style="display:flex;align-items:center;gap:12px;">
           <img src="uploads/Screenshot 2026-06-24 at 3.41.19 PM.png" alt="Mauricio" style="width:42px;height:42px;border-radius:50%;object-fit:cover;object-position:center top;border:2px solid #E4E4E7;">

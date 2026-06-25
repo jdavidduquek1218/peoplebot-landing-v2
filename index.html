@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 80"><rect width="120" height="80" fill="#09090B"/><path d="M35 26 H85 A6 6 0 0 1 91 32 V42 A6 6 0 0 1 85 48 H55 L45 56 L46 48 H35 A6 6 0 0 1 29 42 V32 A6 6 0 0 1 35 26 Z" fill="#4F46E5"/><path d="M38 37 H48 L51 30 L57 44 L60 37 H70" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><text x="60" y="68" font-family="sans-serif" font-size="7" font-weight="bold" fill="rgba(255,255,255,.5)" text-anchor="middle">PeopleBot</text></svg></template>
+
+<helmet>
+<title>PeopleBot — Gestión de personal operativo vía WhatsApp</title>
+<meta name="description" content="7 chatbots de IA que automatizan la gestión de tu personal operativo a través de WhatsApp.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Plus Jakarta Sans', sans-serif; background: #FAFAF8; color: #09090B; -webkit-font-smoothing: antialiased; }
+  h1,h2,h3,h4 { font-family: 'Space Grotesk', sans-serif; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+  @media (max-width: 768px) {
+    .nav-links { display: none !important; }
+    .nav-toggle { display: flex !important; }
+    .two-col { grid-template-columns: 1fr !important; gap: 32px !important; }
+    .three-col { grid-template-columns: 1fr !important; }
+    .four-col { grid-template-columns: 1fr 1fr !important; }
+    .bot-bottom { grid-template-columns: 1fr 1fr !important; max-width: 100% !important; }
+    .stats-grid { grid-template-columns: 1fr 1fr !important; }
+    .reto-grid { grid-template-columns: 1fr !important; }
+    .reto-col { padding: 56px 24px !important; border-right: none !important; border-bottom: 1px solid rgba(255,255,255,.06) !important; }
+    .acc-tabs { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+    .acc-tabs button { min-width: 130px !important; font-size: 12px !important; padding: 12px 10px !important; }
+    .acc-panel { grid-template-columns: 1fr !important; }
+    .acc-panel > div { border-right: none !important; border-bottom: 1px solid #E4E4E7 !important; }
+    .footer-checks { grid-template-columns: 1fr !important; gap: 20px !important; }
+    .contact-row { grid-template-columns: 1fr !important; }
+    section, footer { padding-left: 20px !important; padding-right: 20px !important; }
+    .inner { padding-left: 0 !important; padding-right: 0 !important; }
+  }
+</style>
+<script>
+function scrollToForm(b) {
+  if (b) { var s=document.getElementById('chatbotSelect'); if(s) s.value=b; }
+  var el=document.getElementById('waitlist');
+  if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+  return false;
+}
+function selectBot(b) {
+  var s=document.getElementById('chatbotSelect'); if(s) s.value=b;
+  var el=document.getElementById('waitlist'); if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function showBot(idx) {
+  for(var i=0;i<5;i++){
+    var t=document.getElementById('tab-'+i), p=document.getElementById('panel-'+i);
+    if(!t||!p) continue;
+    if(i===idx){
+      t.style.color='#09090B'; t.style.borderBottom='2px solid #09090B'; t.style.fontWeight='700';
+      p.style.display='grid';
+    } else {
+      t.style.color='#71717A'; t.style.borderBottom='2px solid transparent'; t.style.fontWeight='500';
+      p.style.display='none';
+    }
+  }
+}
+function toggleNav() {
+  var m=document.getElementById('navMobile');
+  if(m) m.style.display = m.style.display==='flex'?'none':'flex';
+}
+window.addEventListener('scroll', function() {
+  var nav=document.getElementById('mainNav');
+  var logo=document.getElementById('navLogoText');
+  var links=document.querySelectorAll('.nav-link-item');
+  var spans=document.querySelectorAll('.hamburger-span');
+  if(!nav) return;
+  var scrolled = window.scrollY > 80;
+  nav.style.background = scrolled ? 'rgba(250,250,248,.96)' : 'transparent';
+  nav.style.backdropFilter = scrolled ? 'blur(16px)' : 'none';
+  nav.style.borderBottomColor = scrolled ? '#E4E4E7' : 'transparent';
+  if(logo) logo.style.color = scrolled ? '#09090B' : '#fff';
+  links.forEach(function(l,i){
+    if(i<links.length-1) l.style.color = scrolled ? '#52525B' : 'rgba(255,255,255,.65)';
+  });
+  spans.forEach(function(s){ s.style.background = scrolled ? '#09090B' : '#fff'; });
+});
+</script>
+</helmet>
+
+<!-- ═══ NAV ═══ -->
+<nav id="mainNav" style="position:fixed;top:0;left:0;right:0;z-index:100;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 32px;background:transparent;border-bottom:1px solid transparent;transition:all .25s;">
+  <a href="#" style="display:flex;align-items:center;gap:9px;text-decoration:none;">
+    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 96 96"><path d="M28 14 H68 A18 18 0 0 1 86 32 V54 A18 18 0 0 1 68 72 H44 L26 86 L29 72 H28 A18 18 0 0 1 10 54 V32 A18 18 0 0 1 28 14 Z" fill="#4F46E5"></path><path d="M22 44 H37 L42 31 L51 57 L56 44 H74" fill="none" stroke="#fff" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+    <span id="navLogoText" style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px;color:#fff;transition:color .25s;">PeopleBot</span>
+  </a>
+  <div class="nav-links" style="display:flex;align-items:center;gap:2px;">
+    <a href="#chatbots" class="nav-link-item" style="font-size:14px;font-weight:500;color:rgba(255,255,255,.65);text-decoration:none;padding:8px 14px;border-radius:8px;transition:color .2s;">Chatbots</a>
+    <a href="#demo" class="nav-link-item" style="font-size:14px;font-weight:500;color:rgba(255,255,255,.65);text-decoration:none;padding:8px 14px;border-radius:8px;transition:color .2s;">Demo</a>
+    <a href="#caso" class="nav-link-item" style="font-size:14px;font-weight:500;color:rgba(255,255,255,.65);text-decoration:none;padding:8px 14px;border-radius:8px;transition:color .2s;">Casos</a>
+    <a href="#waitlist" onclick="scrollToForm(null)" class="nav-link-item" style="background:#4F46E5;color:#fff !important;font-size:14px;font-weight:600;padding:9px 20px;border-radius:8px;text-decoration:none;margin-left:10px;transition:background .2s;" style-hover="background:#4338CA">Unirme</a>
+  </div>
+  <button onclick="toggleNav()" class="nav-toggle" style="display:none;background:none;border:none;cursor:pointer;padding:8px;flex-direction:column;gap:5px;">
+    <span class="hamburger-span" style="width:22px;height:2px;background:#fff;border-radius:2px;display:block;transition:background .25s;"></span>
+    <span class="hamburger-span" style="width:22px;height:2px;background:#fff;border-radius:2px;display:block;transition:background .25s;"></span>
+    <span class="hamburger-span" style="width:22px;height:2px;background:#fff;border-radius:2px;display:block;transition:background .25s;"></span>
+  </button>
+</nav>
+
+<!-- Mobile nav -->
+<div id="navMobile" style="display:none;position:fixed;top:64px;left:0;right:0;z-index:99;background:#09090B;border-bottom:1px solid rgba(255,255,255,.06);padding:16px 24px;flex-direction:column;gap:2px;">
+  <a href="#chatbots" onclick="toggleNav()" style="font-size:15px;font-weight:500;color:rgba(255,255,255,.8);text-decoration:none;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.05);display:block;">Chatbots</a>
+  <a href="#demo" onclick="toggleNav()" style="font-size:15px;font-weight:500;color:rgba(255,255,255,.8);text-decoration:none;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.05);display:block;">Demo</a>
+  <a href="#caso" onclick="toggleNav()" style="font-size:15px;font-weight:500;color:rgba(255,255,255,.8);text-decoration:none;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.05);display:block;">Casos</a>
+  <a href="#waitlist" onclick="scrollToForm(null);toggleNav();" style="background:#4F46E5;color:#fff;font-size:15px;font-weight:600;padding:14px 20px;border-radius:10px;text-decoration:none;text-align:center;display:block;margin-top:10px;">Unirme a la waiting list</a>
+</div>
+
+<!-- ═══ HERO ═══ -->
+<section style="background:#09090B;padding:148px 24px 100px;text-align:center;position:relative;overflow:hidden;" data-screen-label="Hero">
+  <div style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:1000px;height:600px;background:radial-gradient(ellipse at 50% 0%,rgba(79,70,229,.22) 0%,transparent 60%);pointer-events:none;"></div>
+  <div style="max-width:840px;margin:0 auto;position:relative;animation:fadeUp .7s both;">
+    <div style="display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,.1);border-radius:100px;padding:6px 18px;margin-bottom:44px;background:rgba(255,255,255,.03);">
+      <span style="width:7px;height:7px;background:#25D366;border-radius:50%;animation:blink 2s infinite;display:inline-block;"></span>
+      <span style="font-size:13px;font-weight:500;color:rgba(255,255,255,.55);letter-spacing:.02em;">Waiting list abierta · Cupos limitados</span>
+    </div>
+    <h1 style="font-size:clamp(52px,7.5vw,92px);font-weight:700;line-height:1.0;letter-spacing:-.03em;color:#fff;margin-bottom:28px;text-wrap:balance;">Crece sin disparar<br>tus costos de operación.</h1>
+    <p style="font-size:clamp(17px,2vw,21px);color:rgba(255,255,255,.45);line-height:1.55;margin-bottom:52px;font-weight:400;">Gestión de personal operativo a través de <span style="color:#25D366;font-weight:600;">WhatsApp</span></p>
+    <div style="display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;">
+      <a href="#waitlist" onclick="scrollToForm(null)" style="background:#4F46E5;color:#fff;font-size:16px;font-weight:600;padding:16px 32px;border-radius:10px;text-decoration:none;display:inline-flex;align-items:center;gap:8px;box-shadow:0 0 0 1px rgba(79,70,229,.4),0 4px 24px rgba(79,70,229,.25);transition:all .2s;" style-hover="background:#4338CA;transform:translateY(-1px)">Unirme a la waiting list <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg></a>
+      <a href="#demo" style="font-size:15px;font-weight:500;color:rgba(255,255,255,.4);text-decoration:none;display:inline-flex;align-items:center;gap:7px;transition:color .2s;" style-hover="color:rgba(255,255,255,.8)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.5"/><path d="M10 8l6 4-6 4V8z" fill="currentColor"/></svg> Ver demo</a>
+    </div>
+    <!-- Stats -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;margin-top:80px;border:1px solid rgba(255,255,255,.07);border-radius:14px;overflow:hidden;background:rgba(255,255,255,.02);" class="stats-grid">
+      <div style="padding:22px 28px;text-align:center;border-right:1px solid rgba(255,255,255,.07);">
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:34px;font-weight:700;color:#fff;line-height:1;">7.5x</div>
+        <div style="font-size:12px;color:rgba(255,255,255,.35);margin-top:5px;font-weight:500;">interacción vs email</div>
+      </div>
+      <div style="padding:22px 28px;text-align:center;border-right:1px solid rgba(255,255,255,.07);">
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:34px;font-weight:700;color:#25D366;line-height:1;">+80%</div>
+        <div style="font-size:12px;color:rgba(255,255,255,.35);margin-top:5px;font-weight:500;">tasa de respuesta</div>
+      </div>
+      <div style="padding:22px 28px;text-align:center;">
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:34px;font-weight:700;color:#fff;line-height:1;">100%</div>
+        <div style="font-size:12px;color:rgba(255,255,255,.35);margin-top:5px;font-weight:500;">automatizado</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ EL RETO ═══ -->
+<section style="padding:0;background:#09090B;" data-screen-label="El Reto">
+  <div style="max-width:1120px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;border-top:1px solid rgba(255,255,255,.06);" class="reto-grid">
+    <div style="padding:88px 60px;border-right:1px solid rgba(255,255,255,.06);" class="reto-col">
+      <p style="font-size:11px;font-weight:700;letter-spacing:.2em;color:#4F46E5;text-transform:uppercase;margin-bottom:28px;">El reto</p>
+      <h2 style="font-size:clamp(26px,2.8vw,38px);font-weight:700;color:#fff;line-height:1.28;text-wrap:balance;">Hoy las empresas ya no crecen inflando equipos — crecen <span style="color:#4F46E5;">automatizando lo repetitivo.</span></h2>
+    </div>
+    <div style="padding:88px 60px;" class="reto-col">
+      <p style="font-size:11px;font-weight:700;letter-spacing:.2em;color:rgba(255,255,255,.25);text-transform:uppercase;margin-bottom:28px;">El problema</p>
+      <h2 style="font-size:clamp(26px,2.8vw,38px);font-weight:700;color:#fff;line-height:1.28;text-wrap:balance;">Para el personal operativo y sin escritorio el reto es el <span style="color:#4F46E5;">uso de la tecnología</span> y montarlos en los <span style="color:#4F46E5;">procesos.</span></h2>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ LA SOLUCIÓN ═══ -->
+<section style="padding:100px 24px;background:#FAFAF8;" data-screen-label="La Solución">
+  <div style="max-width:1120px;margin:0 auto;">
+    <div style="margin-bottom:60px;">
+      <p style="font-size:11px;font-weight:700;letter-spacing:.2em;color:#4F46E5;text-transform:uppercase;margin-bottom:16px;">La solución</p>
+      <h2 style="font-size:clamp(30px,4vw,52px);font-weight:700;color:#09090B;line-height:1.1;letter-spacing:-.02em;max-width:680px;text-wrap:balance;">PeopleBot gestiona tu operación de personas a través de <span style="color:#25D366;">WhatsApp</span></h2>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:#E4E4E7;border-radius:16px;overflow:hidden;border:1px solid #E4E4E7;" class="three-col">
+      <div style="background:#fff;padding:40px 36px;">
+        <div style="width:42px;height:42px;background:#EEF2FF;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:22px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2a7 7 0 017 7 7 7 0 01-7 7 7 7 0 01-7-7 7 7 0 017-7m0 9a2 2 0 100-4 2 2 0 000 4m-4 7v-1a4 4 0 018 0v1" stroke="#4F46E5" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3 style="font-size:18px;font-weight:700;color:#09090B;margin-bottom:10px;line-height:1.3;">Somos especialistas en la automatización de la operación de personas aplicando IA</h3>
+        <p style="font-size:14px;color:#71717A;line-height:1.65;">Diseñamos chatbots entrenados específicamente para la gestión de personal operativo, no soluciones genéricas.</p>
+      </div>
+      <div style="background:#fff;padding:40px 36px;">
+        <div style="width:42px;height:42px;background:#F0FDF4;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:22px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.14.563 4.144 1.535 5.875L0 24l6.297-1.499A11.946 11.946 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.891 0-3.659-.504-5.191-1.383l-.371-.22-3.86.92.978-3.763-.241-.389A9.936 9.936 0 012 12c0-5.514 4.486-10 10-10s10 4.486 10 10-4.486 10-10 10z"/></svg></div>
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:36px;font-weight:700;color:#25D366;line-height:1;margin-bottom:6px;">7.5x</div>
+        <h3 style="font-size:18px;font-weight:700;color:#09090B;margin-bottom:10px;line-height:1.3;">Aumentamos el engagement utilizando el canal que tu personal operativo ya utiliza: WhatsApp</h3>
+        <p style="font-size:14px;color:#71717A;line-height:1.65;">Donde el email falla, WhatsApp convierte. Tus equipos operativos ya lo usan todo el día.</p>
+      </div>
+      <div style="background:#fff;padding:40px 36px;">
+        <div style="width:42px;height:42px;background:#F5F3FF;border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:22px;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="7" height="7" rx="1" stroke="#7C3AED" stroke-width="1.8"/><rect x="14" y="3" width="7" height="7" rx="1" stroke="#7C3AED" stroke-width="1.8"/><rect x="3" y="14" width="7" height="7" rx="1" stroke="#7C3AED" stroke-width="1.8"/><path d="M14 17.5h7M17.5 14v7" stroke="#7C3AED" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        <h3 style="font-size:18px;font-weight:700;color:#09090B;margin-bottom:10px;line-height:1.3;">Los chatbots están conectados a una plataforma donde los líderes toman decisiones</h3>
+        <p style="font-size:14px;color:#71717A;line-height:1.65;">Dashboard con métricas de clima, asistencia, performance y encuestas — todo en un solo lugar.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 7 CHATBOTS ═══ -->
+<section id="chatbots" style="padding:100px 24px;background:#fff;" data-screen-label="Los 7 Chatbots">
+  <div style="max-width:1120px;margin:0 auto;">
+    <div style="margin-bottom:60px;">
+      <p style="font-size:11px;font-weight:700;letter-spacing:.2em;color:#4F46E5;text-transform:uppercase;margin-bottom:16px;">Tu equipo digital</p>
+      <h2 style="font-size:clamp(30px,4vw,52px);font-weight:700;color:#09090B;line-height:1.1;letter-spacing:-.02em;max-width:720px;text-wrap:balance;">Conoce tu equipo de chatbots potenciados con IA por <span style="color:#25D366;">WhatsApp</span></h2>
+    </div>
+    <!-- Row 1: 4 -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:12px;" class="four-col">
+      <!-- 1. Reclutamiento -->
+      <div style="border:1px solid #E4E4E7;border-radius:16px;padding:24px 18px 20px;display:flex;flex-direction:column;align-items:center;text-align:center;background:#FAFAF8;transition:all .2s;" style-hover="border-color:#4F46E5;background:#fff;box-shadow:0 8px 32px rgba(79,70,229,.08);transform:translateY(-3px)">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 110" style="width:78px;height:86px;display:block;margin:0 auto 14px;"><rect x="48" y="10" width="4" height="10" rx="2" fill="#818CF8"></rect><circle cx="50" cy="9" r="4" fill="#A5B4FC"></circle><rect x="28" y="20" width="44" height="38" rx="10" fill="#1E1B4B"></rect><rect x="30" y="22" width="40" height="34" rx="9" fill="#5B6CF9"></rect><circle cx="40" cy="37" r="7" fill="white"></circle><circle cx="60" cy="37" r="7" fill="white"></circle><circle cx="40" cy="37" r="4" fill="#5B6CF9"></circle><circle cx="60" cy="37" r="4" fill="#5B6CF9"></circle><rect x="22" y="60" width="56" height="36" rx="10" fill="#3B4FE8"></rect><rect x="24" y="62" width="52" height="32" rx="9" fill="#5B6CF9"></rect><circle cx="50" cy="68" r="9" fill="rgba(255,255,255,.25)"></circle><circle cx="50" cy="65" r="4" fill="white"></circle><rect x="8" y="62" width="14" height="10" rx="5" fill="#4F5FE8"></rect><rect x="78" y="62" width="14" height="10" rx="5" fill="#4F5FE8"></rect><rect x="30" y="94" width="14" height="12" rx="5" fill="#3B4FE8"></rect><rect x="56" y="94" width="14" height="12" rx="5" fill="#3B4FE8"></rect></svg>
+        <h3 style="font-size:13px;font-weight:700;color:#09090B;margin-bottom:10px;line-height:1.3;">Chatbot de<br>Reclutamiento</h3>
+        <ul style="list-style:none;width:100%;margin-bottom:16px;">
+          <li style="font-size:12px;color:#52525B;padding:3px 0;display:flex;align-items:flex-start;gap:6px;text-align:left;"><span style="color:#4F46E5;font-weight:700;min-width:10px;margin-top:1px;">·</span>Filtra candidatos</li>
+          <li style="font-size:12px;color:#52525B;padding:3px 0;display:flex;align-items:flex-start;gap:6px;text-align:left;"><span style="color:#4F46E5;font-weight:700;min-width:10px;margin-top:1px;">·</span>Hace las preguntas clave</li>
+          <li style="font-size:12px;color:#52525B;padding:3px 0;display:flex;align-items:flex-start;gap:6px;text-align:left;"><span style="color:#4F46E5;font-weight:700;min-width:10px;margin-top:1px;">·</span>Agenda la entrevista</li>
+        </ul>
+        <button id="bot-btn-reclu" style="width:100%;background:#09090B;color:#fff;font-size:12px;font-weight:600;padding:10px;border-radius:8px;border:none;cursor:pointer;transition:background .2s;" style-hover="background:#4F46E5">Me interesa →</button>
+      </div>
+      <!-- 2. Onboarding -->
+      <div style="border:1px solid #E4E4E7;border-radius:16px;padding:24px 18px 20px;display:flex;flex-direction:column;align-items:center;text-align:center;background:#FAFAF8;transition:all .2s;" style-hover="border-color:#16A34A;background:#fff;box-shadow:0 8px 32px rgba(22,163,74,.08);transform:translateY(-3px)">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 110" style="width:78px;height:86px;display:block;margin:0 auto 14px;"><rect x="48" y="10" width="4" height="10" rx="2" fill="#4ADE80"></rect><circle cx="50" cy="9" r="4" fill="#86EFAC"></circle><rect x="28" y="20" width="44" height="38" rx="10" fill="#14532D"></rect><rect x="30" y="22" width="40" height="34" rx="9" fill="#16A34A"></rect><circle cx="40" cy="37" r="7" fill="white"></circle><circle cx="60" cy="37" r="7" fill="white"></circle><circle cx="40" cy="37" r="4" fill="#16A34A"></circle><circle cx="60" cy="37" r="4" fill="#16A34A"></circle><rect x="22" y="60" width="56" height="36" rx="10" fill="#15803D"></rect><rect x="24" y="62" width="52" height="32" rx="9" fill="#16A34A"></rect><circle cx="50" cy="68" r="9" fill="rgba(255,255,255,.2)"></circle><path d="M45 68 l3.5 3.5 6.5-6.5" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"></path><rect x="8" y="62" width="14" height="10" rx="5" fill="#16A34A"></rect><rect x="78" y="62" width="14" height="10" rx="5" fill="#16A34A"></rect><rect x="30" y="94" width="14" height="12" rx="5" fill="#15803D"></rect><rect x="56" y="94" width="14" height="12" rx="5" fill="#15803D"></rect></svg>
+        <h3 style="font-size:13px;font-weight:700;color:#09090B;margin-bottom:10px;line-height:1.3;">Chatbot de<br>Onboarding Offboarding</h3>
+        <ul style="list-style:none;width:100%;margin-bottom:16px;">
+          <li style="font-size:12px;color:#52525B;padding:3px 0;display:flex;align-items:flex-start;gap:6px;text-align:left;"><span style="color:#16A34A;font-weight:700;min-width:10px;margin-top:1px;">·</span>Envía el paso a paso de ingreso</li>
+          <li style="font-size:12px;color:#52525B;padding:3px 0;display:flex;align-items:flex-start;gap:6px;text-align:left;"><span style="color:#16A34A;font-weight:700;min-width:10px;margin-top:1px;">·</span>Firma contratos</li>
+          <li style="font-size:12px;color:#52525B;padding:3px 0;display:flex;align-items:flex-start;gap:6px;text-align:left;"><span style="color:#16A34A;font-weight:700;min-width:10px;margin-top:1px;">·</span>Acompaña la salida</li>
+        </ul>
+        <button id="bot-btn-onbo" style="width:100%;background:#09090B;color:#fff;font-size:12px;font-weight:600;padding:10px;border-radius:8px;border:none;cursor:pointer;transition:background .2s;" style-hover="background:#16A34A">Me interesa →</button>
+      </div>
+      <!-- 3. Encuestas y Clima -->
+      <div style="border:1px solid #E4E4E7;border-radius:16px;padding:24px 18px 20px;display:flex;flex-direction:column;align-items:center;text-align:center;background:#FAFAF8;transition:all .2s;" style-hover="border-color:#6B7280;background:#fff;box-shadow:0 8px 32px rgba(107,114,128,.08);transform:translateY(-3px)">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 110" style="width:78px;height:86px;display:block;margin:0 auto 14px;"><rect x="48" y="10" width="4" height="10" rx="2" fill="#D1D5DB"></rect><circle cx="50" cy="9" r="4" fill="#FCD34D"></circle><rect x="28" y="20" width="44" height="38" rx="10" fill="#374151"></rect><rect x="30" y="22" width="40" height="34" rx="9" fill="#9CA3AF"></rect><circle cx="40" cy="37" r="7" fill="white"></circle><circle cx="60" cy="37" r="7" fill="white"></circle><circle cx="40" cy="37" r="4" fill="#6B7280"></circle><circle cx="60" cy="37" r="4" fill="#6B7280"></circle><rect x="22" y="60" width="56" height="36" rx="10" fill="#6B7280"></rect><rect x="24" y="62" width="52" height="32" rx="9" fill="#9CA3AF"></rect><circle cx="50" cy="68" r="9" fill="rgba(255,255,255,.2)"></circle><rect x="8" y="62" width="14" height="10" rx="5" fill="#9CA3AF"></rect><rect x="78" y="62" width="14" height="10" rx="5" fill="#9CA3AF"></rect><rect x="30" y="94" width="14" height="12" rx="5" fill="#6B7280"></rect><rect x="56" y="94" width="14" height="12" rx="5" fill="#6B7280"></rect></svg>
+        <h3 style="font-size:13px;font-weight:700;color:#09090B;margin-bottom:10px;line-height:1.3;">Chatbot de<br>Encuestas y Clima</h3>
+        <ul style="list-style:none;width:100%;margin-bottom:16px;">
+          <li style="font-size:12px;color:#52525B;padding:3px 0;display:flex;align-items:flex-start;gap:6px;text-align:left;"><span style="color:#6B7280;font-weight:700;min-width:10px;margin-top:1px;">·</span>Lanza las encuestas solo.</li>
+          <li style="font-size:12px;color:#52525B;padding:3px 0;display:flex;align-items:flex-start;gap:6px;text-align:left;"><span style="color:#6B7280;font-weight:700;min-width:10px;margin-top:1px;">·</span>+80% tasa de respuesta vs correo</li>
+          <li style="font-size:12px;color:#52525B;padding:3px 0;display:flex;align-items:flex-start;gap:6px;text-align:left;"><span style="color:#6B7280;font-weight:700;min-width:10px;margin-top:1px;">·</span>Entrega reportes con insights</li>
+        </ul>
+        <button id="bot-btn-clima" style="width:100%;background:#09090B;color:#fff;font-size:12px;font-weight:600;padding:10px;border-radius:8px;border:none;cursor:pointer;transition:background .2s;" style-hover="background:#6B7280">Me interesa →</button>
+      </div>
+      <!-- 4. Performance -->
+      <div style="border:1px solid #E4E4E7;border-radius:16px;padding:24px 18px 20px;display:flex;flex-direction:column;align-items:center;text-align:center;background:#FAFAF8;transition:all .2s;" style-hover="border-color:#D97706;background:#fff;box-shadow:0 8px 32px rgba(217,119,6,.08);transform:translateY(-3px)">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 110" style="width:78px;height:86px;display:block;margin:0 auto 14px;"><rect x="48" y="10" width="4" height="10" rx="2" fill="#FCD34D"></rect><circle cx="50" cy="9" r="4" fill="#FDE68A"></circle><rect x="28" y="20" width="44" height="38" rx="10" fill="#78350F"></rect><rect x="30" y="22" width="40" height="34" rx="9" fill="#D97706"></rect><circle cx="40" cy="37" r="7" fill="white"></circle><circle cx="60" cy="37" r="7" fill="white"></circle><circle cx="40" cy="37" r="4" fill="#D97706"></circle><circle cx="60" cy="37" r="4" fill="#D97706"></circle><rect x="22" y="60" width="56" height="36" rx="10" fill="#B45309"></rect><rect x="24" y="62" width="52" height="32" rx="9" fill="#D97706"></rect><rect x="42" y="63" width="4" height="10" rx="1.5" fill="white"></rect><rect x="48" y="59" width="4" height="14" rx="1.5" fill="white"></rect><rect x="54" y="66" width="4" height="7" rx="1.5" fill="white"></rect><rect x="8" y="62" width="14" height="10" rx="5" fill="#D97706"></rect><rect x="78" y="62" width="14" height="10" rx="5" fill="#D97706"></rect><rect x="30" y="94" width="14" height="12" rx="5" fill="#B45309"></rect><rect x="56" y="94" width="14" height="12" rx="5" fill="#B45309"></rect></svg>
+        <h3 style="font-size:13px;font-weight:700;color:#09090B;margin-bottom:10px;line-height:1.3;">Chatbot de<br>Performance</h3>
+        <ul style="list-style:none;width:100%;margin-bottom:16px;">
+          <li style="font-size:12px;color:#52525B;padding:3px 0;display:flex;align-items:flex-start;gap:6px;text-align:left;"><span style="color:#D97706;font-weight:700;min-width:10px;margin-top:1px;">·</span>Evaluaciones periódicas de desempeño</li>
+          <li style="font-size:12px;color:#52525B;padding:3px 0;display:flex;align-items:flex-start;gap:6px;text-align:left;"><span style="color:#D97706;font-weight:700;min-width:10px;margin-top:1px;">·</span>Genera reportes para los líderes</li>
+          <li style="font-size:12px;color:#52525B;padding:3px 0;display:flex;align-items:flex-start;gap:6px;text-align:left;"><span style="color:#D97706;font-weight:700;min-width:10px;margin-top:1px;">·</span>Dispara recordatorios a quien falte por responder</li>
+        </ul>
+        <button id="bot-btn-perf" style="width:100%;background:#09090B;color:#fff;font-size:12px;font-weight:600;padding:10px;border-radius:8px;border:none;cursor:pointer;transition:background .2s;" style-hover="background:#D97706">Me interesa →</button>
+      </div>
+    </div>
+    <!-- Row 2: 3 centered -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:75%;margin:0 auto;" class="bot-bottom">
+      <!-- 5. Celebraciones -->
+      <div style="border:1px solid #E4E4E7;border-radius:16px;padding:24px 18px 20px;display:flex;flex-direction:column;align-items:center;text-align:center;background:#FAFAF8;transition:all .2s;" style-hover="border-color:#DC2626;background:#fff;box-shadow:0 8px 32px rgba(220,38,38,.08);transform:translateY(-3px)">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 110" style="width:78px;height:86px;display:block;margin:0 auto 14px;"><polygon points="50,12 44,28 56,28" fill="#FCD34D"></polygon><circle cx="50" cy="12" r="2.5" fill="#DC2626"></circle><rect x="28" y="20" width="44" height="38" rx="10" fill="#7F1D1D"></rect><rect x="30" y="22" width="40" height="34" rx="9" fill="#DC2626"></rect><circle cx="40" cy="37" r="7" fill="white"></circle><circle cx="60" cy="37" r="7" fill="white"></circle><circle cx="40" cy="37" r="4" fill="#DC2626"></circle><circle cx="60" cy="37" r="4" fill="#DC2626"></circle><rect x="22" y="60" width="56" height="36" rx="10" fill="#B91C1C"></rect><rect x="24" y="62" width="52" height="32" rx="9" fill="#DC2626"></rect><circle cx="50" cy="66" r="3" fill="white"></circle><circle cx="43" cy="71" r="2.5" fill="white" opacity=".7"></circle><circle cx="57" cy="71" r="2.5" fill="white" opacity=".7"></circle><rect x="8" y="62" width="14" height="10" rx="5" fill="#DC2626"></rect><rect x="78" y="62" width="14" height="10" rx="5" fill="#DC2626"></rect><rect x="30" y="94" width="14" height="12" rx="5" fill="#B91C1C"></rect><rect x="56" y="94" width="14" height="12" rx="5" fill="#B91C1C"></rect></svg>
+        <h3 style="font-size:13px;font-weight:700;color:#09090B;margin-bottom:10px;line-height:1.3;">Chatbot de<br>Celebraciones</h3>
+        <ul style="list-style:none;width:100%;margin-bottom:16px;">
+          <li style="font-size:12px;color:#52525B;padding:3px 0;display:flex;align-items:flex-start;gap:6px;text-align:left;"><span style="color:#DC2626;font-weight:700;min-width:10px;margin-top:1px;">·</span>Recuerda cumpleaños, aniversarios o fechas clave</li>
+          <li style="font-size:12px;color:#52525B;padding:3px 0;display:flex;align-items:flex-start;gap:6px;text-align:left;"><span style="color:#DC2626;font-weight:700;min-width:10px;margin-top:1px;">·</span>Coordina regalos con el proveedor</li>
+          <li style="font-size:12px;color:#52525B;padding:3px 0;display:flex;align-items:flex-start;gap:6px;text-align:left;"><span style="color:#DC2626;font-weight:700;min-width:10px;margin-top:1px;">·</span>Fortalece la cultura sin carga manual</li>
+        </ul>
+        <button id="bot-btn-cele" style="width:100%;background:#09090B;color:#fff;font-size:12px;font-weight:600;padding:10px;border-radius:8px;border:none;cursor:pointer;transition:background .2s;" style-hover="background:#DC2626">Me interesa →</button>
+      </div>
+      <!-- 6. Control de Tiempos -->
+      <div style="border:1px solid #E4E4E7;border-radius:16px;padding:24px 18px 20px;display:flex;flex-direction:column;align-items:center;text-align:center;background:#FAFAF8;transition:all .2s;" style-hover="border-color:#0D9488;background:#fff;box-shadow:0 8px 32px rgba(13,148,136,.08);transform:translateY(-3px)">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 110" style="width:78px;height:86px;display:block;margin:0 auto 14px;"><rect x="48" y="10" width="4" height="10" rx="2" fill="#2DD4BF"></rect><circle cx="50" cy="9" r="4" fill="#99F6E4"></circle><rect x="28" y="20" width="44" height="38" rx="10" fill="#134E4A"></rect><rect x="30" y="22" width="40" height="34" rx="9" fill="#0D9488"></rect><circle cx="40" cy="37" r="7" fill="white"></circle><circle cx="60" cy="37" r="7" fill="white"></circle><circle cx="40" cy="37" r="4" fill="#0D9488"></circle><circle cx="60" cy="37" r="4" fill="#0D9488"></circle><rect x="22" y="60" width="56" height="36" rx="10" fill="#0F766E"></rect><rect x="24" y="62" width="52" height="32" rx="9" fill="#0D9488"></rect><circle cx="50" cy="67" r="9" fill="rgba(255,255,255,.2)" stroke="white" stroke-width="1"></circle><line x1="50" y1="62" x2="50" y2="67" stroke="white" stroke-width="2" stroke-linecap="round"></line><line x1="50" y1="67" x2="54" y2="70" stroke="white" stroke-width="2" stroke-linecap="round"></line><rect x="8" y="62" width="14" height="10" rx="5" fill="#0D9488"></rect><rect x="78" y="62" width="14" height="10" rx="5" fill="#0D9488"></rect><rect x="30" y="94" width="14" height="12" rx="5" fill="#0F766E"></rect><rect x="56" y="94" width="14" height="12" rx="5" fill="#0F766E"></rect></svg>
+        <h3 style="font-size:13px;font-weight:700;color:#09090B;margin-bottom:10px;line-height:1.3;">Chatbot de<br>Control de Tiempos</h3>
+        <ul style="list-style:none;width:100%;margin-bottom:16px;">
+          <li style="font-size:12px;color:#52525B;padding:3px 0;display:flex;align-items:flex-start;gap:6px;text-align:left;"><span style="color:#0D9488;font-weight:700;min-width:10px;margin-top:1px;">·</span>Registra ingresos y salidas con georreferenciación.</li>
+          <li style="font-size:12px;color:#52525B;padding:3px 0;display:flex;align-items:flex-start;gap:6px;text-align:left;"><span style="color:#0D9488;font-weight:700;min-width:10px;margin-top:1px;">·</span>Sin apps adicionales ni hardware extra</li>
+          <li style="font-size:12px;color:#52525B;padding:3px 0;display:flex;align-items:flex-start;gap:6px;text-align:left;"><span style="color:#0D9488;font-weight:700;min-width:10px;margin-top:1px;">·</span>Reportes de asistencia en tiempo real</li>
+        </ul>
+        <button id="bot-btn-tiempo" style="width:100%;background:#09090B;color:#fff;font-size:12px;font-weight:600;padding:10px;border-radius:8px;border:none;cursor:pointer;transition:background .2s;" style-hover="background:#0D9488">Me interesa →</button>
+      </div>
+      <!-- 7. Wiki Interna -->
+      <div style="border:1px solid #E4E4E7;border-radius:16px;padding:24px 18px 20px;display:flex;flex-direction:column;align-items:center;text-align:center;background:#FAFAF8;transition:all .2s;" style-hover="border-color:#7C3AED;background:#fff;box-shadow:0 8px 32px rgba(124,58,237,.08);transform:translateY(-3px)">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 110" style="width:78px;height:86px;display:block;margin:0 auto 14px;"><rect x="48" y="10" width="4" height="10" rx="2" fill="#A78BFA"></rect><circle cx="50" cy="9" r="4" fill="#DDD6FE"></circle><rect x="28" y="20" width="44" height="38" rx="10" fill="#4C1D95"></rect><rect x="30" y="22" width="40" height="34" rx="9" fill="#7C3AED"></rect><circle cx="40" cy="37" r="7" fill="white"></circle><circle cx="60" cy="37" r="7" fill="white"></circle><circle cx="40" cy="37" r="4" fill="#7C3AED"></circle><circle cx="60" cy="37" r="4" fill="#7C3AED"></circle><rect x="22" y="60" width="56" height="36" rx="10" fill="#6D28D9"></rect><rect x="24" y="62" width="52" height="32" rx="9" fill="#7C3AED"></rect><rect x="41" y="62" width="18" height="3" rx="1.5" fill="white"></rect><rect x="41" y="67" width="14" height="3" rx="1.5" fill="white" opacity=".8"></rect><rect x="41" y="72" width="11" height="3" rx="1.5" fill="white" opacity=".6"></rect><rect x="8" y="62" width="14" height="10" rx="5" fill="#7C3AED"></rect><rect x="78" y="62" width="14" height="10" rx="5" fill="#7C3AED"></rect><rect x="30" y="94" width="14" height="12" rx="5" fill="#6D28D9"></rect><rect x="56" y="94" width="14" height="12" rx="5" fill="#6D28D9"></rect></svg>
+        <h3 style="font-size:13px;font-weight:700;color:#09090B;margin-bottom:10px;line-height:1.3;">Chatbot de<br>Wiki Interna</h3>
+        <ul style="list-style:none;width:100%;margin-bottom:16px;">
+          <li style="font-size:12px;color:#52525B;padding:3px 0;display:flex;align-items:flex-start;gap:6px;text-align:left;"><span style="color:#7C3AED;font-weight:700;min-width:10px;margin-top:1px;">·</span>Contesta las preguntas sobre procesos internos a los empleados.</li>
+          <li style="font-size:12px;color:#52525B;padding:3px 0;display:flex;align-items:flex-start;gap:6px;text-align:left;"><span style="color:#7C3AED;font-weight:700;min-width:10px;margin-top:1px;">·</span>Aprende de Notion, Docs o PDF</li>
+          <li style="font-size:12px;color:#52525B;padding:3px 0;display:flex;align-items:flex-start;gap:6px;text-align:left;"><span style="color:#7C3AED;font-weight:700;min-width:10px;margin-top:1px;">·</span>Libera tiempo de tu equipo de RRHH</li>
+        </ul>
+        <button id="bot-btn-wiki" style="width:100%;background:#09090B;color:#fff;font-size:12px;font-weight:600;padding:10px;border-radius:8px;border:none;cursor:pointer;transition:background .2s;" style-hover="background:#7C3AED">Me interesa →</button>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:48px;">
+      <a href="#waitlist" onclick="scrollToForm(null)" style="background:#09090B;color:#fff;font-size:15px;font-weight:600;padding:14px 32px;border-radius:10px;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:background .2s;" style-hover="background:#4F46E5">Reservar mi cupo en la waiting list →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ACCORDION ═══ -->
+<section style="padding:100px 24px;background:#FAFAF8;" data-screen-label="Así Funciona">
+  <div style="max-width:1120px;margin:0 auto;">
+    <div style="margin-bottom:52px;">
+      <p style="font-size:11px;font-weight:700;letter-spacing:.2em;color:#4F46E5;text-transform:uppercase;margin-bottom:16px;">En profundidad</p>
+      <h2 style="font-size:clamp(30px,4vw,48px);font-weight:700;color:#09090B;line-height:1.1;letter-spacing:-.02em;">Así funciona cada chatbot</h2>
+    </div>
+    <div style="display:flex;border-bottom:1px solid #E4E4E7;background:transparent;" class="acc-tabs">
+      <button onclick="showBot(0)" id="tab-0" style="flex:1;min-width:130px;padding:14px 14px;font-size:13px;font-weight:700;border:none;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;background:transparent;color:#09090B;border-bottom:2px solid #09090B;white-space:nowrap;transition:all .2s;">🌡️ Clima</button>
+      <button onclick="showBot(1)" id="tab-1" style="flex:1;min-width:130px;padding:14px 14px;font-size:13px;font-weight:500;border:none;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;background:transparent;color:#71717A;border-bottom:2px solid transparent;white-space:nowrap;transition:all .2s;">🔍 Reclutamiento</button>
+      <button onclick="showBot(2)" id="tab-2" style="flex:1;min-width:130px;padding:14px 14px;font-size:13px;font-weight:500;border:none;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;background:transparent;color:#71717A;border-bottom:2px solid transparent;white-space:nowrap;transition:all .2s;">📊 Performance</button>
+      <button onclick="showBot(3)" id="tab-3" style="flex:1;min-width:130px;padding:14px 14px;font-size:13px;font-weight:500;border:none;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;background:transparent;color:#71717A;border-bottom:2px solid transparent;white-space:nowrap;transition:all .2s;">📚 Wiki Interna</button>
+      <button onclick="showBot(4)" id="tab-4" style="flex:1;min-width:150px;padding:14px 14px;font-size:13px;font-weight:500;border:none;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;background:transparent;color:#71717A;border-bottom:2px solid transparent;white-space:nowrap;transition:all .2s;">⏱️ Control de Tiempos</button>
+    </div>
+    <div style="background:#fff;border:1px solid #E4E4E7;border-top:none;border-radius:0 0 16px 16px;overflow:hidden;">
+      <!-- Panel 0: Clima -->
+      <div id="panel-0" class="acc-panel" style="display:grid;grid-template-columns:1fr 1fr;">
+        <div style="padding:48px 40px;border-right:1px solid #E4E4E7;">
+          <div style="display:inline-flex;align-items:center;background:#F0FDF4;border:1px solid #BBF7D0;border-radius:6px;padding:4px 12px;margin-bottom:20px;"><span style="font-size:11px;font-weight:700;color:#16A34A;text-transform:uppercase;letter-spacing:.08em;">Encuestas y Clima</span></div>
+          <h3 style="font-size:clamp(20px,2.2vw,28px);font-weight:700;color:#09090B;margin-bottom:12px;line-height:1.25;">Reduce la rotación del talento</h3>
+          <p style="font-size:15px;color:#71717A;line-height:1.65;margin-bottom:28px;">Identifica lo que valoran y los principales dolores de tu equipo y obten sugerencias accionables antes que sea tarde.</p>
+          <div style="display:flex;flex-direction:column;gap:16px;margin-bottom:32px;">
+            <div style="display:flex;gap:14px;align-items:flex-start;"><div style="width:36px;height:36px;min-width:36px;background:#F0FDF4;border-radius:8px;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:10px;color:#16A34A;">+80%</div><div><strong style="color:#09090B;font-size:14px;display:block;margin-bottom:2px;">Tasa de respuesta</strong><span style="font-size:13px;color:#71717A;">vs formularios por correo</span></div></div>
+            <div style="display:flex;gap:14px;align-items:flex-start;"><div style="width:36px;height:36px;min-width:36px;background:#F0FDF4;border-radius:8px;display:flex;align-items:center;justify-content:center;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M8 6h13M8 12h13M8 18h13" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round"/></svg></div><div><strong style="color:#09090B;font-size:14px;display:block;margin-bottom:2px;">Disparo automático</strong><span style="font-size:13px;color:#71717A;">según fechas definidas</span></div></div>
+            <div style="display:flex;gap:14px;align-items:flex-start;"><div style="width:36px;height:36px;min-width:36px;background:#F0FDF4;border-radius:8px;display:flex;align-items:center;justify-content:center;"><svg width="15" height="15" viewBox="0 0 24 24" fill="none"><path d="M9 17v-2m3 2v-4m3 4v-6" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round"/></svg></div><div><strong style="color:#09090B;font-size:14px;display:block;margin-bottom:2px;">Informes accionables</strong><span style="font-size:13px;color:#71717A;">por área, listos para el líder</span></div></div>
+          </div>
+          <button id="panel-cta-0" style="background:#09090B;color:#fff;font-size:14px;font-weight:600;padding:12px 24px;border-radius:8px;border:none;cursor:pointer;transition:background .2s;" style-hover="background:#4F46E5">Quiero este chatbot →</button>
+        </div>
+        <div style="padding:40px;display:flex;align-items:center;justify-content:center;background:#F4F4F5;">
+          <div style="width:235px;background:#E5DDD5;border-radius:20px;padding:10px;box-shadow:0 20px 60px rgba(0,0,0,.15);border:3px solid #1a1a1a;">
+            <div style="background:#128C7E;border-radius:10px 10px 0 0;padding:10px 12px;display:flex;align-items:center;gap:8px;margin:-10px -10px 0;"><div style="width:26px;height:26px;background:#4F6AF5;border-radius:50%;display:flex;align-items:center;justify-content:center;"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 96 96"><path d="M28 14 H68 A18 18 0 0 1 86 32 V54 A18 18 0 0 1 68 72 H44 L26 86 L29 72 H28 A18 18 0 0 1 10 54 V32 A18 18 0 0 1 28 14 Z" fill="rgba(255,255,255,.25)"></path><path d="M22 44 H37 L42 31 L51 57 L56 44 H74" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"></path></svg></div><div><div style="font-size:10px;font-weight:700;color:#fff;">ClimaBot</div><div style="font-size:8px;color:rgba(255,255,255,.7);">en línea</div></div></div>
+            <div style="margin-top:10px;display:flex;flex-direction:column;gap:6px;padding-bottom:8px;">
+              <div style="background:#fff;border-radius:0 8px 8px 8px;padding:6px 9px;max-width:95%;"><p style="font-size:9.5px;color:#09090B;line-height:1.5;">¡Hola! 👋 Soy el bot que mide el Clima de [Empresa]. Tus respuestas son anónimas, así que puedes responder con completa tranquilidad y sinceridad.</p></div>
+              <div style="background:#fff;border-radius:0 8px 8px 8px;padding:6px 9px;max-width:95%;"><p style="font-size:9.5px;color:#09090B;line-height:1.5;">(5/6) ¿De 1 a 10 qué tanto recomendarías a [Empresa] para trabajar a un amigo o familiar? Responde con un número del 1 al 10.</p></div>
+              <div style="background:#DCF8C6;border-radius:8px 0 8px 8px;padding:6px 9px;max-width:22%;align-self:flex-end;"><p style="font-size:9.5px;color:#09090B;">7</p></div>
+              <div style="background:#fff;border-radius:0 8px 8px 8px;padding:6px 9px;max-width:95%;"><p style="font-size:9.5px;color:#09090B;line-height:1.5;">¿Por qué elegiste ese número? Si lo deseas, agrega también comentarios, ideas o sugerencias.</p></div>
+              <div style="background:#DCF8C6;border-radius:8px 0 8px 8px;padding:6px 9px;max-width:95%;align-self:flex-end;"><p style="font-size:9.5px;color:#09090B;line-height:1.4;">Creo que el área de despacho necesita ampliar su zona de descanso o variar los horarios</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Panel 1: Reclutamiento -->
+      <div id="panel-1" class="acc-panel" style="display:none;grid-template-columns:1fr 1fr;">
+        <div style="padding:40px;display:flex;align-items:center;justify-content:center;background:#F4F4F5;order:1;">
+          <div style="width:235px;background:#E5DDD5;border-radius:20px;padding:10px;box-shadow:0 20px 60px rgba(0,0,0,.15);border:3px solid #1a1a1a;">
+            <div style="background:#128C7E;border-radius:10px 10px 0 0;padding:10px 12px;display:flex;align-items:center;gap:8px;margin:-10px -10px 0;"><div style="width:26px;height:26px;background:#5B6CF9;border-radius:50%;display:flex;align-items:center;justify-content:center;"><svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 96 96"><path d="M28 14 H68 A18 18 0 0 1 86 32 V54 A18 18 0 0 1 68 72 H44 L26 86 L29 72 H28 A18 18 0 0 1 10 54 V32 A18 18 0 0 1 28 14 Z" fill="rgba(255,255,255,.25)"></path><path d="M22 44 H37 L42 31 L51 57 L56 44 H74" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"></path></svg></div><div><div style="font-size:10px;font-weight:700;color:#fff;">Recruiter Bot</div><div style="font-size:8px;color:rgba(255,255,255,.7);">en línea</div></div></div>
+            <div style="margin-top:10px;display:flex;flex-direction:column;gap:6px;padding-bottom:8px;">
+              <div style="background:#fff;border-radius:0 8px 8px 8px;padding:6px 9px;max-width:95%;"><p style="font-size:9.5px;color:#09090B;line-height:1.5;">Hola 👋 Soy el bot de reclutamiento de [Empresa]. ¿Has tenido experiencia en el cargo? (cuéntanos cuánto tiempo)</p></div>
+              <div style="background:#DCF8C6;border-radius:8px 0 8px 8px;padding:6px 9px;max-width:60%;align-self:flex-end;"><p style="font-size:9.5px;color:#09090B;">Más de 2 años</p></div>
+              <div style="background:#fff;border-radius:0 8px 8px 8px;padding:6px 9px;max-width:95%;"><p style="font-size:9.5px;color:#09090B;line-height:1.5;">¿Tienes disponibilidad para tener turnos rotativos?</p></div>
+              <div style="background:#DCF8C6;border-radius:8px 0 8px 8px;padding:6px 9px;max-width:25%;align-self:flex-end;"><p style="font-size:9.5px;color:#09090B;">Sí</p></div>
+              <div style="background:#EEF2FF;border-radius:8px;padding:7px 9px;max-width:95%;border:1px solid #C7D2FE;"><p style="font-size:9px;color:#4F46E5;font-weight:600;line-height:1.4;">¡Perfecto! ✅ Cumples con el perfil. Te agendamos una entrevista — selecciona el horario que te quede mejor 📅</p></div>
+            </div>
+          </div>
+        </div>
+        <div style="padding:48px 40px;order:2;">
+          <div style="display:inline-flex;align-items:center;background:#EEF2FF;border:1px solid #C7D2FE;border-radius:6px;padding:4px 12px;margin-bottom:20px;"><span style="font-size:11px;font-weight:700;color:#4F46E5;text-transform:uppercase;letter-spacing:.08em;">Reclutamiento</span></div>
+          <h3 style="font-size:clamp(20px,2.2vw,28px);font-weight:700;color:#09090B;margin-bottom:12px;line-height:1.25;">Ahorra tiempo y entrevista solo a los candidatos prefiltrados</h3>
+          <p style="font-size:15px;color:#71717A;line-height:1.65;margin-bottom:28px;">Automatiza la primera entrevista y deja que el bot filtre candidatos antes de que lleguen a ti.</p>
+          <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:32px;">
+            <div style="display:flex;gap:12px;"><span style="color:#4F46E5;font-weight:700;font-size:16px;line-height:1.4;">→</span><div><strong style="color:#09090B;font-size:14px;display:block;margin-bottom:2px;">Hace las preguntas clave del cargo en la conversación</strong><span style="font-size:13px;color:#71717A;">sin formularios ni correos</span></div></div>
+            <div style="display:flex;gap:12px;"><span style="color:#4F46E5;font-weight:700;font-size:16px;line-height:1.4;">→</span><div><strong style="color:#09090B;font-size:14px;display:block;margin-bottom:2px;">Analiza datos para filtrar candidatos</strong><span style="font-size:13px;color:#71717A;">según los criterios del cargo</span></div></div>
+            <div style="display:flex;gap:12px;"><span style="color:#4F46E5;font-weight:700;font-size:16px;line-height:1.4;">→</span><div><strong style="color:#09090B;font-size:14px;display:block;margin-bottom:2px;">Agenda la entrevista automáticamente</strong><span style="font-size:13px;color:#71717A;">con los candidatos que pasan el filtro</span></div></div>
+          </div>
+          <button id="panel-cta-1" style="background:#09090B;color:#fff;font-size:14px;font-weight:600;padding:12px 24px;border-radius:8px;border:none;cursor:pointer;transition:background .2s;" style-hover="background:#4F46E5">Hablemos de mi caso →</button>
+        </div>
+      </div>
+      <!-- Panel 2: Performance -->
+      <div id="panel-2" class="acc-panel" style="display:none;grid-template-columns:1fr 1fr;">
+        <div style="padding:48px 40px;border-right:1px solid #E4E4E7;">
+          <div style="display:inline-flex;align-items:center;background:#F5F3FF;border:1px solid #DDD6FE;border-radius:6px;padding:4px 12px;margin-bottom:20px;"><span style="font-size:11px;font-weight:700;color:#7C3AED;text-transform:uppercase;letter-spacing:.08em;">Performance</span></div>
+          <h3 style="font-size:clamp(20px,2.2vw,28px);font-weight:700;color:#09090B;margin-bottom:12px;line-height:1.25;">Garantiza que tengas al equipo correcto en los asientos correctos</h3>
+          <p style="font-size:15px;color:#71717A;line-height:1.65;margin-bottom:28px;">Promueve a tus top performers y gestiona a los low performers.</p>
+          <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:32px;">
+            <div style="display:flex;gap:12px;"><span style="color:#7C3AED;font-weight:700;font-size:16px;line-height:1.4;">→</span><div><strong style="color:#09090B;font-size:14px;display:block;margin-bottom:2px;">Evaluaciones periódicas de desempeño</strong><span style="font-size:13px;color:#71717A;">lanzadas automáticamente por WhatsApp</span></div></div>
+            <div style="display:flex;gap:12px;"><span style="color:#7C3AED;font-weight:700;font-size:16px;line-height:1.4;">→</span><div><strong style="color:#09090B;font-size:14px;display:block;margin-bottom:2px;">Genera reportes para los líderes</strong><span style="font-size:13px;color:#71717A;">con insights por colaborador</span></div></div>
+            <div style="display:flex;gap:12px;"><span style="color:#7C3AED;font-weight:700;font-size:16px;line-height:1.4;">→</span><div><strong style="color:#09090B;font-size:14px;display:block;margin-bottom:2px;">Dispara recordatorios a quien falte por responder</strong><span style="font-size:13px;color:#71717A;">aumentando la participación</span></div></div>
+          </div>
+          <button id="panel-cta-2" style="background:#09090B;color:#fff;font-size:14px;font-weight:600;padding:12px 24px;border-radius:8px;border:none;cursor:pointer;transition:background .2s;" style-hover="background:#7C3AED">Quiero mi demo →</button>
+        </div>
+        <div style="padding:40px;display:flex;align-items:center;justify-content:center;background:#F4F4F5;">
+          <div style="width:235px;background:#E5DDD5;border-radius:20px;padding:10px;box-shadow:0 20px 60px rgba(0,0,0,.15);border:3px solid #1a1a1a;">
+            <div style="background:#128C7E;border-radius:10px 10px 0 0;padding:10px 12px;display:flex;align-items:center;gap:8px;margin:-10px -10px 0;"><div style="width:26px;height:26px;background:#7C3AED;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;">📊</div><div><div style="font-size:10px;font-weight:700;color:#fff;">Performance Bot</div><div style="font-size:8px;color:rgba(255,255,255,.7);">en línea</div></div></div>
+            <div style="margin-top:10px;display:flex;flex-direction:column;gap:6px;padding-bottom:8px;">
+              <div style="background:#fff;border-radius:0 8px 8px 8px;padding:6px 9px;max-width:95%;"><p style="font-size:9.5px;color:#09090B;line-height:1.5;">¡Hola! 👋 Soy el bot que mide el desempeño en [Empresa]. Esta es la oportunidad para retroalimentar a las personas de tu equipo.</p></div>
+              <div style="background:#fff;border-radius:0 8px 8px 8px;padding:6px 9px;max-width:95%;"><p style="font-size:9.5px;color:#09090B;line-height:1.5;">Hoy es el turno para que evalúes a tu compañero [Nombre]. ¿Ha sido [1: nunca – 5: siempre] un buen colega? <span style="color:#6B7280;font-style:italic;">(🔒 Anónima)</span></p></div>
+              <div style="background:#DCF8C6;border-radius:8px 0 8px 8px;padding:6px 9px;max-width:22%;align-self:flex-end;"><p style="font-size:9.5px;color:#09090B;">3</p></div>
+              <div style="background:#fff;border-radius:0 8px 8px 8px;padding:6px 9px;max-width:95%;"><p style="font-size:9.5px;color:#09090B;line-height:1.5;">¿Cómo crees que esta persona puede mejorar? Sugiere qué debería empezar a hacer [Start 🟢] o dejar de hacer [Stop 🔴]. <span style="color:#4F46E5;font-style:italic;">(👤 No anónima)</span></p></div>
+              <div style="background:#DCF8C6;border-radius:8px 0 8px 8px;padding:6px 9px;max-width:90%;align-self:flex-end;"><p style="font-size:9.5px;color:#09090B;line-height:1.4;">Podría dar sugerencias específicas en vez de solo decir qué no le gusta del trabajo de sus compañeros</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Panel 3: Wiki -->
+      <div id="panel-3" class="acc-panel" style="display:none;grid-template-columns:1fr 1fr;">
+        <div style="padding:40px;display:flex;align-items:center;justify-content:center;background:#F4F4F5;order:1;">
+          <div style="width:235px;background:#E5DDD5;border-radius:20px;padding:10px;box-shadow:0 20px 60px rgba(0,0,0,.15);border:3px solid #1a1a1a;">
+            <div style="background:#128C7E;border-radius:10px 10px 0 0;padding:10px 12px;display:flex;align-items:center;gap:8px;margin:-10px -10px 0;"><div style="width:26px;height:26px;background:#6366F1;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;">📚</div><div><div style="font-size:10px;font-weight:700;color:#fff;">Wiki Interna</div><div style="font-size:8px;color:rgba(255,255,255,.7);">en línea</div></div></div>
+            <div style="margin-top:10px;display:flex;flex-direction:column;gap:6px;padding-bottom:8px;">
+              <div style="background:#fff;border-radius:0 8px 8px 8px;padding:6px 9px;max-width:95%;"><p style="font-size:9.5px;color:#09090B;line-height:1.5;">¡Hola! 👋 Soy el bot de Wiki interna de [Empresa]. ¿Cuál es tu pregunta? 🤔</p></div>
+              <div style="background:#DCF8C6;border-radius:8px 0 8px 8px;padding:6px 9px;max-width:88%;align-self:flex-end;"><p style="font-size:9.5px;color:#09090B;">¿Dónde se deben enviar las facturas electrónicas?</p></div>
+              <div style="background:#fff;border-radius:0 8px 8px 8px;padding:6px 9px;max-width:95%;"><p style="font-size:9.5px;color:#09090B;line-height:1.5;">Las facturas electrónicas deben ser enviadas al correo: facturacion@[empresa].com 📧</p></div>
+              <div style="background:#fff;border-radius:0 8px 8px 8px;padding:6px 9px;max-width:95%;"><p style="font-size:9.5px;color:#09090B;margin-bottom:5px;">¿Ahora qué quieres hacer?</p><div style="display:flex;gap:4px;flex-wrap:wrap;"><span style="background:#EEF2FF;color:#4F46E5;font-size:8px;font-weight:600;padding:4px 8px;border-radius:100px;border:1px solid #C7D2FE;">Tengo otra duda 🤔</span><span style="background:#F0FDF4;color:#16A34A;font-size:8px;font-weight:600;padding:4px 8px;border-radius:100px;border:1px solid #BBF7D0;">Finalizar ✅</span></div></div>
+              <div style="background:#DCF8C6;border-radius:8px 0 8px 8px;padding:6px 9px;max-width:38%;align-self:flex-end;"><p style="font-size:9.5px;color:#09090B;">Finalizar ✅</p></div>
+            </div>
+          </div>
+        </div>
+        <div style="padding:48px 40px;order:2;">
+          <div style="display:inline-flex;align-items:center;background:#EEF2FF;border:1px solid #C7D2FE;border-radius:6px;padding:4px 12px;margin-bottom:20px;"><span style="font-size:11px;font-weight:700;color:#4F46E5;text-transform:uppercase;letter-spacing:.08em;">Wiki Interna</span></div>
+          <h3 style="font-size:clamp(20px,2.2vw,28px);font-weight:700;color:#09090B;margin-bottom:12px;line-height:1.25;">El asistente virtual que sabe todo de tu empresa y responde al instante</h3>
+          <p style="font-size:15px;color:#71717A;line-height:1.65;margin-bottom:28px;">Capacita a los nuevos, responde dudas, da a conocer los beneficios y mucho más.</p>
+          <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:32px;">
+            <div style="display:flex;gap:12px;"><span style="color:#4F46E5;font-weight:700;font-size:16px;line-height:1.4;">→</span><div><strong style="color:#09090B;font-size:14px;display:block;margin-bottom:2px;">Disponible 24/7</strong><span style="font-size:13px;color:#71717A;">sin depender de RRHH para resolver dudas</span></div></div>
+            <div style="display:flex;gap:12px;"><span style="color:#4F46E5;font-weight:700;font-size:16px;line-height:1.4;">→</span><div><strong style="color:#09090B;font-size:14px;display:block;margin-bottom:2px;">Aprende de tus documentos</strong><span style="font-size:13px;color:#71717A;">ya sea Notion, Docs o PDF</span></div></div>
+            <div style="display:flex;gap:12px;"><span style="color:#4F46E5;font-weight:700;font-size:16px;line-height:1.4;">→</span><div><strong style="color:#09090B;font-size:14px;display:block;margin-bottom:2px;">Libera tiempo de tu equipo de RRHH</strong><span style="font-size:13px;color:#71717A;">para las cosas que realmente importan</span></div></div>
+          </div>
+          <button id="panel-cta-3" style="background:#09090B;color:#fff;font-size:14px;font-weight:600;padding:12px 24px;border-radius:8px;border:none;cursor:pointer;transition:background .2s;" style-hover="background:#4F46E5">Reservar mi cupo →</button>
+        </div>
+      </div>
+      <!-- Panel 4: Control de Tiempos -->
+      <div id="panel-4" class="acc-panel" style="display:none;grid-template-columns:1fr 1fr;">
+        <div style="padding:48px 40px;border-right:1px solid #E4E4E7;">
+          <div style="display:inline-flex;align-items:center;background:#F0FDFA;border:1px solid #99F6E4;border-radius:6px;padding:4px 12px;margin-bottom:20px;"><span style="font-size:11px;font-weight:700;color:#0D9488;text-transform:uppercase;letter-spacing:.08em;">Control de Tiempos</span></div>
+          <h3 style="font-size:clamp(20px,2.2vw,28px);font-weight:700;color:#09090B;margin-bottom:20px;line-height:1.25;">Valida la asistencia y ubicación de tu equipo en tiempo real, sin reportes manuales ni planillas</h3>
+          <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:32px;">
+            <div style="display:flex;gap:12px;"><span style="font-size:16px;line-height:1.4;">📍</span><div><strong style="color:#09090B;font-size:14px;display:block;margin-bottom:2px;">Registra ingresos y salidas con georreferenciación</strong><span style="font-size:13px;color:#71717A;">Ubicación validada en tiempo real</span></div></div>
+            <div style="display:flex;gap:12px;"><span style="font-size:16px;line-height:1.4;">✅</span><div><strong style="color:#09090B;font-size:14px;display:block;margin-bottom:2px;">Valida la asistencia y ubicación de tu equipo</strong><span style="font-size:13px;color:#71717A;">Sin apps adicionales ni hardware extra</span></div></div>
+            <div style="display:flex;gap:12px;"><span style="font-size:16px;line-height:1.4;">🧾</span><div><strong style="color:#09090B;font-size:14px;display:block;margin-bottom:2px;">Genera reportes de novedades listos para nómina</strong><span style="font-size:13px;color:#71717A;">Sin planillas manuales ni errores de digitación</span></div></div>
+          </div>
+          <button id="panel-cta-4" style="background:#09090B;color:#fff;font-size:14px;font-weight:600;padding:12px 24px;border-radius:8px;border:none;cursor:pointer;transition:background .2s;" style-hover="background:#0D9488">Quiero este chatbot →</button>
+        </div>
+        <div style="padding:40px;display:flex;align-items:center;justify-content:center;background:#F0FDFA;">
+          <div style="width:235px;background:#E5DDD5;border-radius:20px;padding:10px;box-shadow:0 20px 60px rgba(0,0,0,.15);border:3px solid #1a1a1a;">
+            <div style="background:#128C7E;border-radius:10px 10px 0 0;padding:10px 12px;display:flex;align-items:center;gap:8px;margin:-10px -10px 0;"><div style="width:26px;height:26px;background:#0D9488;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;">⏱️</div><div><div style="font-size:10px;font-weight:700;color:#fff;">Bot Control de Tiempo</div><div style="font-size:8px;color:rgba(255,255,255,.7);">en línea</div></div></div>
+            <div style="margin-top:10px;display:flex;flex-direction:column;gap:6px;padding-bottom:8px;">
+              <div style="background:#fff;border-radius:0 8px 8px 8px;padding:6px 9px;max-width:95%;"><p style="font-size:9.5px;color:#09090B;line-height:1.5;">¡Hola! 👋 Soy el bot de control de tiempo. Envía la foto del QR de la sede en la que estás 📍</p></div>
+              <div style="background:#DCF8C6;border-radius:8px 0 8px 8px;padding:8px;max-width:52%;align-self:flex-end;"><div style="width:52px;height:52px;background:#fff;border-radius:4px;display:flex;align-items:center;justify-content:center;margin:0 auto;"><svg viewBox="0 0 40 40" width="44" height="44" fill="none"><rect x="2" y="2" width="14" height="14" rx="2" fill="#09090B"/><rect x="5" y="5" width="8" height="8" rx="1" fill="#fff"/><rect x="7" y="7" width="4" height="4" fill="#09090B"/><rect x="24" y="2" width="14" height="14" rx="2" fill="#09090B"/><rect x="27" y="5" width="8" height="8" rx="1" fill="#fff"/><rect x="29" y="7" width="4" height="4" fill="#09090B"/><rect x="2" y="24" width="14" height="14" rx="2" fill="#09090B"/><rect x="5" y="27" width="8" height="8" rx="1" fill="#fff"/><rect x="7" y="29" width="4" height="4" fill="#09090B"/><rect x="24" y="18" width="4" height="4" fill="#09090B"/><rect x="30" y="18" width="4" height="4" fill="#09090B"/><rect x="24" y="24" width="4" height="4" fill="#09090B"/><rect x="30" y="24" width="4" height="4" fill="#09090B"/><rect x="24" y="30" width="4" height="4" fill="#09090B"/><rect x="30" y="30" width="10" height="4" fill="#09090B"/></svg></div><p style="font-size:8px;color:#555;text-align:center;margin-top:3px;">Foto QR 📷</p></div>
+              <div style="background:#fff;border-radius:0 8px 8px 8px;padding:6px 9px;max-width:95%;"><p style="font-size:9.5px;color:#09090B;line-height:1.5;">✅ Se registra tu llegada a la sede de Laureles a las 13:08hs</p></div>
+              <div style="background:#fff;border-radius:0 8px 8px 8px;padding:6px 9px;max-width:95%;"><p style="font-size:9px;color:#09090B;line-height:1.5;font-style:italic;">"¿Has visto a un hombre diligente en su trabajo? Delante de los reyes estará..." — Rey Salomón. ¡Ten un buen día! 🌞</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ VIDEO DEMO ═══ -->
+<section id="demo" style="padding:100px 24px;background:#09090B;text-align:center;" data-screen-label="Video Demo">
+  <div style="max-width:880px;margin:0 auto;">
+    <div style="display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,.09);border-radius:100px;padding:5px 16px;margin-bottom:32px;background:rgba(255,255,255,.03);">
+      <span style="width:7px;height:7px;background:#EF4444;border-radius:50%;animation:blink 1s infinite;display:inline-block;"></span>
+      <span style="font-size:12px;font-weight:500;color:rgba(255,255,255,.45);letter-spacing:.06em;text-transform:uppercase;">EN VIVO — Demo real de PeopleBot</span>
+    </div>
+    <h2 style="font-size:clamp(32px,4.5vw,56px);font-weight:700;color:#fff;margin-bottom:16px;line-height:1.1;letter-spacing:-.02em;">Velo en acción</h2>
+    <p style="font-size:17px;color:rgba(255,255,255,.38);margin-bottom:48px;line-height:1.55;">Mira cómo PeopleBot gestiona a un equipo de 80 personas en tiempo real desde WhatsApp.</p>
+    <div style="background:#111;border-radius:16px;overflow:hidden;border:1px solid rgba(255,255,255,.05);margin-bottom:40px;aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;">
+      <div style="width:68px;height:68px;background:rgba(79,70,229,.12);border:1.5px solid rgba(79,70,229,.25);border-radius:50%;display:flex;align-items:center;justify-content:center;"><svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M5 3l14 9-14 9V3z" fill="#4F46E5"></path></svg></div>
+      <p style="color:rgba(255,255,255,.25);font-size:14px;">Espacio para tu video demo</p>
+      <p style="color:rgba(255,255,255,.12);font-size:12px;">Reemplaza con un iframe de YouTube, Loom o tu video MP4</p>
+    </div>
+    <a href="#waitlist" onclick="scrollToForm(null)" style="background:#fff;color:#09090B;font-size:16px;font-weight:700;padding:16px 32px;border-radius:10px;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all .2s;" style-hover="background:#F4F4F5">Agendar mi demo personalizada →</a>
+  </div>
+</section>
+
+<!-- ═══ CASO ALELUYA ═══ -->
+<section id="caso" style="padding:100px 24px;background:#FAFAF8;border-top:1px solid #E4E4E7;" data-screen-label="Caso Aleluya">
+  <div style="max-width:920px;margin:0 auto;">
+    <p style="font-size:11px;font-weight:700;letter-spacing:.2em;color:#4F46E5;text-transform:uppercase;margin-bottom:56px;text-align:center;">Caso de éxito</p>
+    <div style="display:grid;grid-template-columns:1fr auto;gap:72px;align-items:center;" class="two-col">
+      <div>
+        <img src="uploads/Copy of sin_fondo_letra_negra (2).png" alt="Aleluya" style="height:26px;width:auto;display:block;margin-bottom:32px;filter:grayscale(1);opacity:.5;">
+        <h3 style="font-size:clamp(22px,2.5vw,32px);font-weight:700;color:#09090B;line-height:1.25;margin-bottom:24px;">Co-creado a partir del modelo de People que gestionamos en Aleluya durante 4 años</h3>
+        <p style="font-size:20px;color:#09090B;font-style:italic;line-height:1.55;margin-bottom:28px;font-weight:500;">"En mis 15 años de carrera, Aleluya ha sido el lugar donde me he sentido más feliz trabajando"</p>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <img src="uploads/Screenshot 2026-06-24 at 3.41.19 PM.png" alt="Mauricio" style="width:42px;height:42px;border-radius:50%;object-fit:cover;object-position:center top;border:2px solid #E4E4E7;">
+          <span style="font-size:14px;color:#71717A;font-weight:500;">— Mauricio, colaborador Aleluya</span>
+        </div>
+      </div>
+      <div style="text-align:center;padding:40px 52px;background:#fff;border-radius:20px;border:1px solid #E4E4E7;box-shadow:0 4px 24px rgba(0,0,0,.04);flex-shrink:0;">
+        <div style="font-family:'Space Grotesk',sans-serif;font-size:68px;font-weight:700;color:#4F46E5;line-height:1;">76.1</div>
+        <div style="font-size:12px;font-weight:700;color:#A1A1AA;text-transform:uppercase;letter-spacing:.12em;margin-top:8px;">eNPS promedio</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ WAITLIST ═══ -->
+<section id="waitlist" style="padding:120px 24px;background:#4F46E5;text-align:center;" data-screen-label="Waiting List">
+  <div style="max-width:580px;margin:0 auto;">
+    <div style="display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,.2);border-radius:100px;padding:5px 16px;margin-bottom:32px;background:rgba(255,255,255,.08);">
+      <span style="width:7px;height:7px;background:#fff;border-radius:50%;animation:blink 2s infinite;display:inline-block;"></span>
+      <span style="font-size:12px;font-weight:500;color:rgba(255,255,255,.7);">Cupos limitados · Waiting list abierta</span>
+    </div>
+    <h2 style="font-size:clamp(36px,5.5vw,64px);font-weight:700;color:#fff;line-height:1.0;letter-spacing:-.03em;margin-bottom:20px;text-wrap:balance;">Agenda tu demo personalizada.</h2>
+    <p style="font-size:18px;color:rgba(255,255,255,.6);line-height:1.55;margin-bottom:52px;">Completa el formulario y te contactamos para agendar una demo adaptada exactamente a tu necesidad.</p>
+    <a href="https://docs.google.com/forms/d/e/1FAIpQLScA8apTL9ydDfxIYbQibrjhT1TpzY8QM49QB-MxW6EepYkh1A/viewform?usp=publish-editor" target="_blank" style="background:#fff;color:#4F46E5;font-size:18px;font-weight:700;padding:20px 48px;border-radius:12px;text-decoration:none;display:inline-flex;align-items:center;gap:10px;transition:all .2s;box-shadow:0 4px 24px rgba(0,0,0,.12);" style-hover="transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,.18)">Quiero mi demo <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></a>
+    <p style="font-size:13px;color:rgba(255,255,255,.35);margin-top:20px;">Formulario de Google · Sin spam · Demo personalizada</p>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer style="padding:80px 24px 48px;background:#09090B;" data-screen-label="Footer">
+  <div style="max-width:1120px;margin:0 auto;">
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-bottom:64px;padding-bottom:64px;border-bottom:1px solid rgba(255,255,255,.06);" class="footer-checks">
+      <div style="display:flex;gap:14px;align-items:flex-start;"><div style="width:38px;height:38px;min-width:38px;background:rgba(79,70,229,.12);border-radius:8px;display:flex;align-items:center;justify-content:center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#4F46E5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></div><p style="font-weight:600;color:#fff;font-size:15px;line-height:1.4;margin-top:8px;">Crecer sin inflar tu equipo</p></div>
+      <div style="display:flex;gap:14px;align-items:flex-start;"><div style="width:38px;height:38px;min-width:38px;background:rgba(37,211,102,.1);border-radius:8px;display:flex;align-items:center;justify-content:center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#25D366" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></div><p style="font-weight:600;color:#fff;font-size:15px;line-height:1.4;margin-top:8px;">Reducir carga operativa sin dependencia humana</p></div>
+      <div style="display:flex;gap:14px;align-items:flex-start;"><div style="width:38px;height:38px;min-width:38px;background:rgba(124,58,237,.12);border-radius:8px;display:flex;align-items:center;justify-content:center;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#7C3AED" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg></div><p style="font-weight:600;color:#fff;font-size:15px;line-height:1.4;margin-top:8px;">Proteger la rentabilidad</p></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr auto;gap:32px;align-items:center;" class="contact-row">
+      <div style="display:flex;align-items:center;gap:16px;">
+        <div style="width:50px;height:50px;background:linear-gradient(135deg,#4F46E5,#7C3AED);border-radius:12px;display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:17px;min-width:50px;flex-shrink:0;">JD</div>
+        <div>
+          <p style="font-family:'Space Grotesk',sans-serif;font-weight:700;color:#fff;font-size:16px;margin-bottom:2px;">Juan David Duque</p>
+          <p style="font-size:13px;color:rgba(255,255,255,.35);margin-bottom:10px;">People Lead — PeopleBot</p>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;">
+            <a href="https://wa.me/573163046175" target="_blank" style="font-size:13px;color:rgba(255,255,255,.4);text-decoration:none;display:flex;align-items:center;gap:5px;transition:color .2s;" style-hover="color:#25D366"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.14.563 4.144 1.535 5.875L0 24l6.297-1.499A11.946 11.946 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.891 0-3.659-.504-5.191-1.383l-.371-.22-3.86.92.978-3.763-.241-.389A9.936 9.936 0 012 12c0-5.514 4.486-10 10-10s10 4.486 10 10-4.486 10-10 10z"/></svg> WhatsApp</a>
+            <a href="https://www.linkedin.com/in/jdavidduquek/" target="_blank" style="font-size:13px;color:rgba(255,255,255,.4);text-decoration:none;display:flex;align-items:center;gap:5px;transition:color .2s;" style-hover="color:#4F46E5"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg> LinkedIn</a>
+          </div>
+        </div>
+      </div>
+      <a href="#waitlist" onclick="scrollToForm(null)" style="background:#4F46E5;color:#fff;font-size:15px;font-weight:600;padding:14px 28px;border-radius:10px;text-decoration:none;white-space:nowrap;display:inline-flex;align-items:center;gap:8px;transition:background .2s;" style-hover="background:#4338CA">Agendar demo →</a>
+    </div>
+    <p style="text-align:center;font-size:12px;color:rgba(255,255,255,.15);margin-top:48px;">© 2026 PeopleBot · Gestión de personal operativo vía WhatsApp</p>
+  </div>
+</footer>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  componentDidMount() {
+    // Accordion tabs
+    for (var i = 0; i < 5; i++) {
+      (function(idx) {
+        var btn = document.getElementById('tab-' + idx);
+        if (btn) btn.addEventListener('click', function() { showBot(idx); });
+      })(i);
+    }
+    // Bot card buttons
+    var botMap = [
+      ['bot-btn-reclu', 'Reclutamiento'],
+      ['bot-btn-onbo', 'Onboarding/Offboarding'],
+      ['bot-btn-clima', 'Encuestas y Clima'],
+      ['bot-btn-perf', 'Performance'],
+      ['bot-btn-cele', 'Celebraciones'],
+      ['bot-btn-tiempo', 'Control de Tiempos'],
+      ['bot-btn-wiki', 'Wiki Interna'],
+    ];
+    botMap.forEach(function(pair) {
+      var el = document.getElementById(pair[0]);
+      if (el) el.addEventListener('click', function() { selectBot(pair[1]); });
+    });
+    // Accordion panel CTAs
+    var panelBtns = [
+      ['panel-cta-0', 'Encuestas y Clima'],
+      ['panel-cta-1', 'Reclutamiento'],
+      ['panel-cta-2', 'Performance'],
+      ['panel-cta-3', 'Wiki Interna'],
+      ['panel-cta-4', 'Control de Tiempos'],
+    ];
+    panelBtns.forEach(function(pair) {
+      var el = document.getElementById(pair[0]);
+      if (el) el.addEventListener('click', function() { selectBot(pair[1]); });
+    });
+    // All scroll-to-form links
+    document.querySelectorAll('[data-scroll-form]').forEach(function(el) {
+      el.addEventListener('click', function(e) { e.preventDefault(); scrollToForm(null); });
+    });
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+class Component extends DCLogic {
+  componentDidMount() {
+    // Accordion tabs
+    for (var i = 0; i < 5; i++) {
+      (function(idx) {
+        var btn = document.getElementById('tab-' + idx);
+        if (btn) btn.addEventListener('click', function() { showBot(idx); });
+      })(i);
+    }
+    // Bot card buttons
+    var botMap = [
+      ['bot-btn-reclu', 'Reclutamiento'],
+      ['bot-btn-onbo', 'Onboarding/Offboarding'],
+      ['bot-btn-clima', 'Encuestas y Clima'],
+      ['bot-btn-perf', 'Performance'],
+      ['bot-btn-cele', 'Celebraciones'],
+      ['bot-btn-tiempo', 'Control de Tiempos'],
+      ['bot-btn-wiki', 'Wiki Interna'],
+    ];
+    botMap.forEach(function(pair) {
+      var el = document.getElementById(pair[0]);
+      if (el) el.addEventListener('click', function() { selectBot(pair[1]); });
+    });
+    // Accordion panel CTAs
+    var panelBtns = [
+      ['panel-cta-0', 'Encuestas y Clima'],
+      ['panel-cta-1', 'Reclutamiento'],
+      ['panel-cta-2', 'Performance'],
+      ['panel-cta-3', 'Wiki Interna'],
+      ['panel-cta-4', 'Control de Tiempos'],
+    ];
+    panelBtns.forEach(function(pair) {
+      var el = document.getElementById(pair[0]);
+      if (el) el.addEventListener('click', function() { selectBot(pair[1]); });
+    });
+    // All scroll-to-form links
+    document.querySelectorAll('[data-scroll-form]').forEach(function(el) {
+      el.addEventListener('click', function(e) { e.preventDefault(); scrollToForm(null); });
+    });
+  }
+}

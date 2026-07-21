@@ -105,7 +105,6 @@ window.addEventListener('scroll', function() {
   <div class="nav-links" style="display:flex;align-items:center;gap:2px;">
     <a href="#chatbots" class="nav-link-item" style="font-size:14px;font-weight:500;color:rgba(255,255,255,.65);text-decoration:none;padding:8px 14px;border-radius:8px;transition:color .2s;">Chatbots</a>
     <a href="#demo" class="nav-link-item" style="font-size:14px;font-weight:500;color:rgba(255,255,255,.65);text-decoration:none;padding:8px 14px;border-radius:8px;transition:color .2s;">Demo</a>
-    <a href="#caso" class="nav-link-item" style="font-size:14px;font-weight:500;color:rgba(255,255,255,.65);text-decoration:none;padding:8px 14px;border-radius:8px;transition:color .2s;">Casos</a>
     <a href="#waitlist" onclick="scrollToForm(null)" class="nav-link-item" style="background:#4F46E5;color:#fff !important;font-size:14px;font-weight:600;padding:9px 20px;border-radius:8px;text-decoration:none;margin-left:10px;transition:background .2s;" style-hover="background:#4338CA">Solicita tu cotización</a>
   </div>
   <button onclick="toggleNav()" class="nav-toggle" style="display:none;background:none;border:none;cursor:pointer;padding:8px;flex-direction:column;gap:5px;">
@@ -127,13 +126,9 @@ window.addEventListener('scroll', function() {
 <section style="background:#09090B;padding:148px 24px 100px;text-align:center;position:relative;overflow:hidden;" data-screen-label="Hero">
   <div style="position:absolute;top:0;left:50%;transform:translateX(-50%);width:1000px;height:600px;background:radial-gradient(ellipse at 50% 0%,rgba(79,70,229,.22) 0%,transparent 60%);pointer-events:none;"></div>
   <div style="max-width:840px;margin:0 auto;position:relative;animation:fadeUp .7s both;">
-    <div style="display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,.1);border-radius:100px;padding:6px 18px;margin-bottom:44px;background:rgba(255,255,255,.03);">
-      <span style="width:7px;height:7px;background:#25D366;border-radius:50%;animation:blink 2s infinite;display:inline-block;"></span>
-      <span style="font-size:13px;font-weight:500;color:rgba(255,255,255,.55);letter-spacing:.02em;">Demos disponibles · Agenda la tuya hoy</span>
-    </div>
+
     
-    
-    <h1 style="font-size: clamp(52px,7.5vw,92px); font-weight: 700; line-height: 1.0; letter-spacing: -.03em; color: #fff; margin-bottom: 28px; text-wrap: balance; position: relative">Automatiza la gestión de tu personal operativo vía&nbsp;<span data-cc-id="cc-1" style="color: rgb(37, 211, 102);">WhatsApp</span></h1><p style="font-size:clamp(17px,2vw,21px);color:rgba(255,255,255,.45);line-height:1.55;margin-bottom:52px;font-weight:400;">Reclutamiento, onboarding, clima, performance,&nbsp; tiempos, celebraciones y wiki —&nbsp; <br>en el canal que tu equipo <strong style="color:#fff;">ya usa todos los días.</strong></p><div style="display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;">
+    <h1 style="font-size: clamp(52px,7.5vw,92px); font-weight: 700; line-height: 1.0; letter-spacing: -.03em; color: #fff; margin-bottom: 28px; text-wrap: balance; position: relative">Automatiza la gestión de tu personal operativo vía&nbsp;<span data-cc-id="cc-1" class="cycle-word" style="color: rgb(37, 211, 102);">WhatsApp</span></h1><p style="font-size:clamp(17px,2vw,21px);color:rgba(255,255,255,.45);line-height:1.55;margin-bottom:52px;font-weight:400;">Reclutamiento, onboarding, clima, performance,&nbsp; tiempos, celebraciones y wiki —&nbsp; <br>en el canal que tu equipo <strong style="color:#fff;">ya usa todos los días.</strong></p><div style="display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;">
       <a href="#waitlist" onclick="scrollToForm(null)" style="background:#4F46E5;color:#fff;font-size:16px;font-weight:600;padding:16px 32px;border-radius:10px;text-decoration:none;display:inline-flex;align-items:center;gap:8px;box-shadow:0 0 0 1px rgba(79,70,229,.4),0 4px 24px rgba(79,70,229,.25);transition:all .2s;" style-hover="background:#4338CA;transform:translateY(-1px)">Conversemos <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></path></svg></a>
       
     </div>
@@ -168,9 +163,25 @@ window.addEventListener('scroll', function() {
 <!-- ═══ LA SOLUCIÓN ═══ -->
 <section style="padding:100px 24px;background:#FAFAF8;" data-screen-label="La Solución">
   <div style="max-width:1120px;margin:0 auto;">
-    <div style="margin-bottom:60px;">
-      <p style="font-size:11px;font-weight:700;letter-spacing:.2em;color:#4F46E5;text-transform:uppercase;margin-bottom:16px;">La solución</p>
-      <h2 style="font-size:clamp(30px,4vw,52px);font-weight:700;color:#09090B;line-height:1.1;letter-spacing:-.02em;max-width:680px;text-wrap:balance;">PeopleBot gestiona tu operación de personas en el chat que ya tienen abierto:&nbsp;<span style="color: rgb(37, 211, 102);">WhatsApp</span></h2>
+    <div style="margin-bottom:60px;display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center;" class="two-col">
+      <div>
+        <p style="font-size:11px;font-weight:700;letter-spacing:.2em;color:#4F46E5;text-transform:uppercase;margin-bottom:16px;">La solución</p>
+        <h2 style="font-size:clamp(30px,4vw,52px);font-weight:700;color:#09090B;line-height:1.1;letter-spacing:-.02em;max-width:680px;text-wrap:balance;">PeopleBot gestiona tu operación de personas en el chat que ya tienen abierto:&nbsp;<span class="cycle-word" style="color: rgb(37, 211, 102);">WhatsApp</span></h2>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;">
+        <div style="width:64px;height:64px;background:#fff;border:1px solid #E4E4E7;border-radius:14px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,.04);">
+          <svg width="30" height="30" viewBox="0 0 24 24"><path fill="#25D366" d="M12 0C5.373 0 0 5.373 0 12c0 2.14.563 4.144 1.535 5.875L0 24l6.297-1.499A11.946 11.946 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0z"></path><path fill="#fff" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"></path></svg>
+        </div>
+        <div style="width:64px;height:64px;background:#fff;border:1px solid #E4E4E7;border-radius:14px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,.04);">
+          <img src="uploads/Screenshot 2026-07-21 at 3.12.14 PM-a33e9b9c.png" alt="Teams" style="width:34px;height:34px;object-fit:contain;">
+        </div>
+        <div style="width:64px;height:64px;background:#fff;border:1px solid #E4E4E7;border-radius:14px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,.04);">
+          <img src="uploads/Screenshot 2026-07-21 at 3.12.26 PM-8454b405.png" alt="Slack" style="width:34px;height:34px;object-fit:contain;">
+        </div>
+        <div style="width:64px;height:64px;background:#fff;border:1px solid #E4E4E7;border-radius:14px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,.04);">
+          <img src="uploads/Screenshot 2026-07-21 at 3.12.30 PM-27375c67.png" alt="Google Chat" style="width:34px;height:34px;object-fit:contain;">
+        </div>
+      </div>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;" class="three-col">
 
@@ -230,7 +241,7 @@ window.addEventListener('scroll', function() {
   <div style="max-width:1120px;margin:0 auto;">
     <div style="margin-bottom:60px;">
       <p style="font-size:11px;font-weight:700;letter-spacing:.2em;color:#4F46E5;text-transform:uppercase;margin-bottom:16px;">Tu equipo digital</p>
-      <h2 style="font-size:clamp(30px,4vw,52px);font-weight:700;color:#09090B;line-height:1.1;letter-spacing:-.02em;max-width:720px;text-wrap:balance;">Conoce tu equipo de agentes de HR y Ops en&nbsp;<span style="color: rgb(37, 211, 102); font-size: clamp(30px, 4vw, 52px); letter-spacing: -0.02em; text-wrap-mode: initial;">WhatsApp</span><span style="font-size: clamp(30px, 4vw, 52px); letter-spacing: -0.02em; text-wrap-mode: initial;">&nbsp;potenciados con IA</span><br></h2>
+      <h2 style="font-size:clamp(30px,4vw,52px);font-weight:700;color:#09090B;line-height:1.1;letter-spacing:-.02em;max-width:720px;text-wrap:balance;">Conoce tu equipo de agentes de HR y Ops en&nbsp;<span class="cycle-word" style="color: rgb(37, 211, 102); font-size: clamp(30px, 4vw, 52px); letter-spacing: -0.02em; text-wrap-mode: initial;">WhatsApp</span><span style="font-size: clamp(30px, 4vw, 52px); letter-spacing: -0.02em; text-wrap-mode: initial;">&nbsp;potenciados con IA</span><br></h2>
     </div>
     <!-- Row 1: 4 -->
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:18px;" class="four-col">
@@ -288,7 +299,7 @@ window.addEventListener('scroll', function() {
           <svg viewBox="0 0 160 200" width="115" height="144" style="overflow:visible;"><defs><radialGradient id="o6" cx="28%" cy="22%" r="75%"><stop offset="0%" stop-color="#66DDDD"></stop><stop offset="42%" stop-color="#1AA0A0"></stop><stop offset="100%" stop-color="#063C3C"></stop></radialGradient><radialGradient id="o6v" cx="32%" cy="24%" r="72%"><stop offset="0%" stop-color="#2C2C2C"></stop><stop offset="100%" stop-color="#040404"></stop></radialGradient><radialGradient id="o6e" cx="42%" cy="35%" r="60%"><stop offset="0%" stop-color="#FFFFFF"></stop><stop offset="55%" stop-color="#C8D8EC"></stop><stop offset="100%" stop-color="#708090"></stop></radialGradient><filter id="o6s" x="-30%" y="-15%" width="160%" height="145%"><feDropShadow dx="0" dy="6" stdDeviation="9" flood-color="#0E6A6A" flood-opacity="0.35"></feDropShadow></filter><radialGradient id="o6a" cx="30%" cy="28%" r="70%"><stop offset="0%" stop-color="#44CCCC"></stop><stop offset="100%" stop-color="#063C3C"></stop></radialGradient></defs><ellipse cx="80" cy="197" rx="46" ry="5" fill="black" fill-opacity="0.1"></ellipse><rect x="77" y="12" width="6" height="18" rx="3" fill="#0A7070"></rect><circle cx="80" cy="10" r="7" fill="url(#o6)"></circle><circle cx="77" cy="7" r="2.5" fill="white" fill-opacity="0.25"></circle><rect x="22" y="26" width="116" height="96" rx="40" fill="url(#o6)" filter="url(#o6s)"></rect><rect x="35" y="42" width="90" height="64" rx="26" fill="url(#o6v)"></rect><rect x="35" y="42" width="90" height="64" rx="26" fill="none" stroke="#222" stroke-width="1.5"></rect><ellipse cx="64" cy="74" rx="11" ry="15" fill="url(#o6e)" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"></ellipse><ellipse cx="96" cy="74" rx="11" ry="15" fill="url(#o6e)" stroke="rgba(255,255,255,0.25)" stroke-width="1.5"></ellipse><rect x="70" y="119" width="20" height="13" rx="5" fill="#0A7070"></rect><ellipse cx="17" cy="150" rx="9" ry="12" fill="url(#o6a)" transform="rotate(-12 17 150)"></ellipse><ellipse cx="14" cy="165" rx="12" ry="15" fill="url(#o6a)" transform="rotate(-8 14 165)"></ellipse><ellipse cx="143" cy="150" rx="9" ry="12" fill="url(#o6a)" transform="rotate(12 143 150)"></ellipse><ellipse cx="146" cy="165" rx="12" ry="15" fill="url(#o6a)" transform="rotate(8 146 165)"></ellipse><rect x="34" y="130" width="92" height="66" rx="26" fill="url(#o6)" filter="url(#o6s)"></rect><circle cx="80" cy="158" r="17" fill="#063C3C" fill-opacity="0.82"></circle><circle cx="80" cy="158" r="17" fill="none" stroke="rgba(102,221,221,0.45)" stroke-width="2"></circle><line x1="80" y1="143" x2="80" y2="147" stroke="rgba(255,255,255,0.45)" stroke-width="2"></line><line x1="80" y1="169" x2="80" y2="173" stroke="rgba(255,255,255,0.45)" stroke-width="2"></line><line x1="65" y1="158" x2="69" y2="158" stroke="rgba(255,255,255,0.45)" stroke-width="2"></line><line x1="91" y1="158" x2="95" y2="158" stroke="rgba(255,255,255,0.45)" stroke-width="2"></line><line x1="80" y1="158" x2="80" y2="148" stroke="white" stroke-width="2.5" stroke-linecap="round"></line><line x1="80" y1="158" x2="88" y2="163" stroke="rgba(102,221,221,0.9)" stroke-width="2" stroke-linecap="round"></line><circle cx="80" cy="158" r="2.5" fill="white"></circle></svg>
         </div>
         <h3 style="font-size:15px;font-weight:800;color:#111;margin:8px 0 14px;line-height:1.3;">Agente de<br>Control de Tiempos</h3>
-        <ul style="text-align:left;margin:0 0 20px;padding:0 0 0 14px;color:#5A6A7A;font-size:12.5px;line-height:2;flex:1;"><li>Registra ingresos y salidas con georref.</li><li>Sin apps adicionales ni hardware extra</li><li>Reportes de asistencia en tiempo real</li></ul>
+        <ul style="text-align:left;margin:0 0 20px;padding:0 0 0 14px;color:#5A6A7A;font-size:12.5px;line-height:2;flex:1;"><li>Registra ingresos y salidas con georreferenciación</li><li>Sin apps adicionales ni hardware extra</li><li>Reportes de asistencia en tiempo real</li></ul>
         <button id="bot-btn-tiempo" style="background:#111;color:white;border:none;border-radius:100px;padding:12px 0;font-size:13px;font-weight:700;cursor:pointer;width:100%;font-family:inherit;transition:background .2s;">Me interesa →</button>
       </div>
       <!-- 7. Wiki Interna -->
@@ -418,7 +429,7 @@ window.addEventListener('scroll', function() {
               <div style="background:#fff;border-radius:0 8px 8px 8px;padding:6px 9px;max-width:95%;"><p style="font-size:9.5px;color:#09090B;line-height:1.5;">Hoy es el turno para que evalúes a tu compañero [Nombre]. ¿Ha sido [1: nunca – 5: siempre] un buen colega? <span style="color:#6B7280;font-style:italic;">(🔒 Anónima)</span></p></div>
               <div style="background:#DCF8C6;border-radius:8px 0 8px 8px;padding:6px 9px;max-width:22%;align-self:flex-end;"><p style="font-size:9.5px;color:#09090B;">3</p></div>
               <div style="background:#fff;border-radius:0 8px 8px 8px;padding:6px 9px;max-width:95%;"><p style="font-size:9.5px;color:#09090B;line-height:1.5;">¿Cómo crees que esta persona puede mejorar? Sugiere qué debería empezar a hacer [Start 🟢] o dejar de hacer [Stop 🔴]. <span style="color:#4F46E5;font-style:italic;">(👤 No anónima)</span></p></div>
-              <div style="background:#DCF8C6;border-radius:8px 0 8px 8px;padding:6px 9px;max-width:90%;align-self:flex-end;"><p style="font-size:9.5px;color:#09090B;line-height:1.4;">Podría dar sugerencias específicas en vez de solo decir qué no le gusta del trabajo de sus compañeros</p></div>
+              <div style="background:#DCF8C6;border-radius:8px 0 8px 8px;padding:6px 9px;max-width:90%;align-self:flex-end;"><p style="font-size:9.5px;color:#09090B;line-height:1.4;">Podría dar sugerencias específicas en vez de solo decir qué no le gusta el trabajo de sus compañeros</p></div>
             </div>
           </div>
         </div>
@@ -596,6 +607,14 @@ window.addEventListener('scroll', function() {
 <script type="text/x-dc" data-dc-script>
 class Component extends DCLogic {
   componentDidMount() {
+    var channels = ['WhatsApp', 'Teams', 'Slack', 'Google Chat'];
+    var idx = 0;
+    setInterval(function() {
+      idx = (idx + 1) % channels.length;
+      document.querySelectorAll('.cycle-word').forEach(function(el) {
+        el.textContent = channels[idx];
+      });
+    }, 2200);
     // Accordion tabs
     for (var i = 0; i < 5; i++) {
       (function(idx) {
